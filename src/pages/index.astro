@@ -1,29 +1,30 @@
 ---
-import Home from '../components/Home.astro';
-import Layout from '../layouts/Layout.astro';
-import Navbar from '../components/Navbar.astro'
-
-
+import Home from "../components/Home.astro";
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar.astro";
 
 const navItems = [
-  { href: "/", label: "Home" },
   { href: "/docs", label: "Docs" },
   { href: "/blog", label: "Blog" },
   { href: "/about", label: "About" },
 ];
-
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
 <Layout>
-	<Navbar
-  items={navItems}
-  brand={{ name: "MySite", href: "/", logoSrc: "src/assets/light.png", alt: "MySite logo" }}
-  cta={{ label: "Get Started", href: "/get-started" }}
-  currentPath={Astro.url.pathname}
-/>
+  <Navbar
+    items={navItems}
+    brand={{
+      name: "MySite",
+      href: "/",
+      logoSrc: "src/assets/logo.png",
+      alt: "MySite logo",
+    }}
+    cta={{ label: "Contact", href: "/Contact" }}
+    currentPath={Astro.url.pathname}
+  />
 
-	<Home />
+  <Home />
 </Layout>
