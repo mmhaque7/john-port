@@ -1,0 +1,178 @@
+---
+// src/components/Navbar.astro
+export interface NavItem {
+  href: string;
+  label: string;
+}
+
+export interface Props {
+  items: NavItem[];
+  brand?: { name: string; href?: string; logoSrc?: string; alt?: string };
+  cta?: { label: string; href: string } | null;
+  currentPath?: string; // e.g., Astro.url.pathname from the page
+  sticky?: boolean;     // makes the header stick to top
+}
+
+const {
+  items = [],
+  brand = { name: "Brand", href: "/" },
+  cta = null,
+  currentPath = "",
+  sticky = true,
+} = Astro.props;
+---
+
+<header class={`w-full ${sticky ? "sticky top-0" : ""} z-50 bg-white/80 dark:bg-zinc-900/70 backdrop-blur border-b border-zinc-200 dark:border-zinc-800`}>
+  <nav class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" role="navigation" aria-label="Main">
+    <div class="flex h-16 items-center justify-between">
+      <!-- Brand -->
+      <a href={brand.href ?? "/"} class="flex items-center gap-2 font-semibold text-zinc-900 dark:text-zinc-100 no-underline">
+        {brand.logoSrc && (
+          <img src={brand.logoSrc} width="28" height="28" alt={brand.alt ?? brand.name} class="rounded-md" loading="lazy" decoding="async" />
+        )}
+        <span class="text-base sm:text-lg">{brand.name}</span>
+      </a>
+
+      <!-- Desktop links -->
+      <ul class="hidden md:flex items-center gap-6">
+        {items.map(({ href, label }) => {
+          const active =
+            href === currentPath ||
+            (href !== "/" && currentPath.startsWith(href));
+          return (
+            <li>
+              <a
+                href={href}
+                class={`inline-block px-1 py-2 text-sm font-medium transition-colors
+                  ${active
+                    ? "text-zinc-900 dark:text-white"
+                    : "text-zinc-600 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-white"}`}
+                aria-current={active ? "page" : undefined}
+              >
+                {label}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+
+      <!-- CTA (desktop) -->
+      {cta && (
+        <div class="hidden md:block">
+          <a
+            href={cta.href}
+            class="rounded-xl border border-zinc-300 dark:border-zinc-700 px-4 py-2 text-sm font-medium hover:shadow-sm transition-shadow"
+          >
+            {cta.label}
+          </a>
+        </div>
+      )}
+
+      <!-- Mobile menu button -->
+      <button
+        class="md:hidden inline-flex items-center justify-center rounded-lg p-2 focus:outline-none focus-visible:ring focus-visible:ring-indigo-500"
+        aria-controls="mobile-menu"
+        aria-expanded="false"
+        id="menu-button"
+        title="Open menu"
+      >
+        <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <span class="sr-only">Toggle menu</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile panel -->
+  <div id="mobile-menu" hidden class="md:hidden border-t border-zinc-200 dark:border-zinc-800 bg-white/95 dark:bg-zinc-900/95 backdrop-blur">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-2">
+      <ul class="flex flex-col py-2">
+        {items.map(({ href, label }) => {
+          const active =
+            href === currentPath ||
+            (href !== "/" && currentPath.startsWith(href));
+          return (
+            <li>
+              <a
+                href={href}
+                class={`block w-full rounded-lg px-3 py-2 text-base font-medium
+                ${active
+                  ? "text-zinc-900 dark:text-white"
+                  : "text-zinc-700 hover:bg-zinc-100 dark:text-zinc-200 dark:hover:bg-zinc-800"}`}
+                aria-current={active ? "page" : undefined}
+              >
+                {label}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+      {cta && (
+        <div class="border-t border-zinc-200 dark:border-zinc-800 pt-2 mt-2">
+          <a
+            href={cta.href}
+            class="block text-center rounded-xl border border-zinc-300 dark:border-zinc-700 px-4 py-2 text-sm font-medium hover:shadow-sm"
+          >
+            {cta.label}
+          </a>
+        </div>
+      )}
+    </div>
+  </div>
+</header>
+
+<style>
+  /* Minimal utilities fallback if you’re not using Tailwind */
+  :where(.sr-only){position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  :where(.sticky){position:sticky}
+  :where(.backdrop-blur){backdrop-filter:saturate(180%) blur(10px)}
+  @media (prefers-reduced-motion: no-preference){
+    header{transition: background-color .2s ease, border-color .2s ease}
+    a{transition: color .15s ease, box-shadow .15s ease}
+    button{transition: transform .15s ease}
+    button:active{transform:scale(.98)}
+  }
+  /* Dark mode scaffold (works if your site toggles .dark on <html>) */
+  :root { color-scheme: light dark; }
+</style>
+
+<script type="module">
+  // Small, framework-free mobile toggle with a11y niceties
+  const btn = document.getElementById('menu-button');
+  const panel = document.getElementById('mobile-menu');
+
+  function closePanel() {
+    panel.hidden = true;
+    btn.setAttribute('aria-expanded', 'false');
+    btn.title = 'Open menu';
+  }
+  function openPanel() {
+    panel.hidden = false;
+    btn.setAttribute('aria-expanded', 'true');
+    btn.title = 'Close menu';
+  }
+
+  btn?.addEventListener('click', () => {
+    const expanded = btn.getAttribute('aria-expanded') === 'true';
+    expanded ? closePanel() : openPanel();
+  });
+
+  // Close when pressing Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closePanel();
+  });
+
+  // Close when a mobile link is clicked
+  panel?.addEventListener('click', (e) => {
+    const target = e.target;
+    if (target?.closest('a')) closePanel();
+  });
+
+  // Close when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!panel?.hidden && !panel.contains(e.target) && !btn.contains(e.target)) {
+      closePanel();
+    }
+  });
+</script>
