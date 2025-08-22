@@ -1,0 +1,110 @@
+---
+export interface ImageData {
+  src: string;
+  alt: string;
+  detail: string;
+}
+
+export interface Props {
+  images: ImageData[];
+  title: string;
+}
+
+const { images, title } = Astro.props;
+---
+
+<section class="bg-black py-16 text-white">
+  <div class="max-w-6xl mx-auto px-4">
+    <h2 class="text-3xl font-bold mb-10 text-center">{title}</h2>
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+      {
+        images.map((img, i) => (
+          <button
+            class="group relative overflow-hidden rounded-lg shadow hover:scale-105 transition transform duration-300"
+            data-index={i}
+          >
+            <img src={img.src} alt={img.alt} class="w-full h-48 object-cover" />
+            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition" />
+          </button>
+        ))
+      }
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div
+    id="modal"
+    class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 hidden"
+  >
+    <div
+      class="bg-white text-black max-w-lg w-full p-6 rounded-xl shadow-xl relative animate-fadeIn"
+    >
+      <button
+        id="closeModal"
+        class="absolute top-3 right-4 text-2xl text-gray-500 hover:text-gray-700"
+        aria-label="Close modal"
+      >
+        &times;
+      </button>
+      <div id="modalContent" class="text-sm leading-relaxed"></div>
+    </div>
+  </div>
+
+  <!-- Inject images JSON safely -->
+  <script
+    type="application/json"
+    id="carousel-data"
+    set:html={JSON.stringify(images)}
+  />
+
+  <style is:global>
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-fadeIn {
+      animation: fadeIn 0.3s ease-out forwards;
+    }
+  </style>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const dataScript = document.getElementById("carousel-data");
+      const jsonText =
+        dataScript && dataScript.textContent ? dataScript.textContent : "[]";
+      const images = JSON.parse(jsonText);
+
+      const modal = document.getElementById("modal");
+      const modalContent = document.getElementById("modalContent");
+      const close = document.getElementById("closeModal");
+
+      document.querySelectorAll("[data-index]").forEach((el) => {
+        el.addEventListener("click", () => {
+          const index = parseInt(el.getAttribute("data-index") || "0");
+
+          if (modal && modalContent) {
+            modalContent.innerHTML = images[index].detail;
+            modal.classList.remove("hidden");
+          }
+        });
+      });
+
+      close?.addEventListener("click", () => {
+        if (modal) modal.classList.add("hidden");
+      });
+
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && modal) {
+          modal.classList.add("hidden");
+        }
+      });
+    });
+  </script>
+</section>

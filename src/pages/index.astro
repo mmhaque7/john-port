@@ -1,7 +1,30 @@
 ---
-import Home from "../components/Home.astro";
-import Layout from "../layouts/Layout.astro";
 import Navbar from "../components/Navbar.astro";
+
+import Hero from "../components/Hero.astro";
+import ImageCarousel from "../components/ImageCarousel.astro";
+import Layout from "../layouts/Layout.astro";
+
+const images = [
+  {
+    src: "https://images.unsplash.com/photo-1660831421396-bb20e1149468?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    alt: "Living Room",
+    detail:
+      '<h2 class="text-xl font-semibold mb-2">Living Room Design</h2><p>Includes layout planning, lighting strategy, and custom furnishings.</p>',
+  },
+  {
+    src: "https://images.unsplash.com/photo-1618219908412-a29a1bb7b86e?q=80&w=627&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    alt: "Kitchen",
+    detail:
+      '<h2 class="text-xl font-semibold mb-2">Kitchen Renovation</h2><p>Modern cabinet design, appliance integration, and material selection.</p>',
+  },
+  {
+    src: "https://images.unsplash.com/photo-1606744888344-493238951221?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    alt: "Bedroom",
+    detail:
+      '<h2 class="text-xl font-semibold mb-2">Master Bedroom</h2><p>Color scheme consultation, lighting, and custom built-ins.</p>',
+  },
+];
 
 const navItems = [
   { href: "/docs", label: "Docs" },
@@ -26,5 +49,13 @@ const navItems = [
     currentPath={Astro.url.pathname}
   />
 
-  <Home />
-</Layout>
+  <Hero
+    title="Where Vision Meets Elegance"
+    subtitle="For over two decades, I’ve been crafting interiors that balance sophistication, comfort, and individuality—delivering spaces that leave a lasting impression."
+    ctaText="Book a Consultation"
+    ctaLink="/contact"
+    imageUrl="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1300&q=80"
+  />
+
+  <ImageCarousel images={images} title="Work" /></Layout
+>
