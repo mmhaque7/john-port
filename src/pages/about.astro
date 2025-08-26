@@ -1,0 +1,306 @@
+---
+// src/pages/about.astro — Interior Designer "About" page
+import Navbar from "../components/Navbar.astro";
+import Layout from "../layouts/Layout.astro";
+
+const pageTitle = "About — Johnathan Furlong";
+
+const navItems = [
+  { href: "/about", label: "About" },
+  { href: "/media", label: "Media" },
+  { href: "/blog", label: "Blog" },
+];
+---
+
+<Layout title={pageTitle}>
+  <!-- HERO / ARTIST STATEMENT -->
+  <Navbar
+    items={navItems}
+    brand={{
+      name: "MySite",
+      href: "/",
+      logoSrc: "src/assets/logo.png",
+      alt: "MySite logo",
+    }}
+    cta={{ label: "Contact", href: "/Contact" }}
+    currentPath={Astro.url.pathname}
+  />
+  <section class="relative overflow-hidden">
+    <!-- soft glows -->
+    <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10">
+      <div
+        class="absolute -top-32 -left-24 h-[40rem] w-[40rem] rounded-full bg-gradient-to-br from-zinc-900 via-zinc-800 to-black blur-3xl opacity-70"
+      >
+      </div>
+      <div
+        class="absolute -bottom-40 -right-20 h-[36rem] w-[36rem] rounded-full bg-gradient-to-tr from-zinc-900 via-neutral-800 to-black blur-3xl opacity-60"
+      >
+      </div>
+      <div
+        class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-zinc-700 to-transparent"
+      >
+      </div>
+    </div>
+
+    <div class="mx-auto max-w-7xl px-6 pt-24 pb-16 text-zinc-100">
+      <p class="tracking-[0.35em] text-[11px] uppercase text-zinc-500">
+        Interior Designer
+      </p>
+      <h1
+        class="mt-4 text-5xl font-black leading-[1.05] tracking-tight sm:text-7xl"
+      >
+        Spaces that feel <span class="text-zinc-400">inevitable</span> — crafted
+        with restraint, light, and purpose.
+      </h1>
+      <p class="mt-6 max-w-3xl text-lg leading-relaxed text-zinc-400">
+        I design interiors that breathe: quiet confidence, honest materials, and
+        silhouettes that age gracefully. The work is contemporary, but never
+        cold; minimal, but never spare. Each project is a portrait of how you
+        live.
+      </p>
+
+      <div class="mt-10 flex flex-wrap gap-3 text-[12px]">
+        <span
+          class="rounded-full border border-zinc-800/80 px-3 py-1 text-zinc-400"
+          >Residential</span
+        >
+        <span
+          class="rounded-full border border-zinc-800/80 px-3 py-1 text-zinc-400"
+          >Hospitality</span
+        >
+        <span
+          class="rounded-full border border-zinc-800/80 px-3 py-1 text-zinc-400"
+          >Commercial</span
+        >
+        <span
+          class="rounded-full border border-zinc-800/80 px-3 py-1 text-zinc-400"
+          >Art Direction</span
+        >
+      </div>
+    </div>
+  </section>
+
+  <!-- MOODBOARD / GALLERY STRIP -->
+  <section class="mx-auto max-w-7xl px-6 pb-8">
+    <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-6">
+      <!-- Replace srcs with your project thumbnails -->
+      <figure
+        class="aspect-[4/5] overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900/40"
+      >
+        <img
+          src="/images/portfolio/01.jpg"
+          alt="Project 01"
+          class="h-full w-full object-cover opacity-90 hover:opacity-100 transition"
+        />
+      </figure>
+      <figure
+        class="aspect-square overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900/40"
+      >
+        <img
+          src="/images/portfolio/02.jpg"
+          alt="Project 02"
+          class="h-full w-full object-cover opacity-90 hover:opacity-100 transition"
+        />
+      </figure>
+      <figure
+        class="aspect-[3/4] overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900/40"
+      >
+        <img
+          src="/images/portfolio/03.jpg"
+          alt="Project 03"
+          class="h-full w-full object-cover opacity-90 hover:opacity-100 transition"
+        />
+      </figure>
+      <figure
+        class="aspect-square overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900/40"
+      >
+        <img
+          src="/images/portfolio/04.jpg"
+          alt="Project 04"
+          class="h-full w-full object-cover opacity-90 hover:opacity-100 transition"
+        />
+      </figure>
+      <figure
+        class="aspect-[4/5] overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900/40"
+      >
+        <img
+          src="/images/portfolio/05.jpg"
+          alt="Project 05"
+          class="h-full w-full object-cover opacity-90 hover:opacity-100 transition"
+        />
+      </figure>
+      <figure
+        class="aspect-square overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900/40"
+      >
+        <img
+          src="/images/portfolio/06.jpg"
+          alt="Project 06"
+          class="h-full w-full object-cover opacity-90 hover:opacity-100 transition"
+        />
+      </figure>
+    </div>
+  </section>
+
+  <!-- PRACTICE ETHOS / QUOTE -->
+  <section class="mx-auto max-w-7xl px-6 py-16">
+    <blockquote
+      class="rounded-3xl border border-zinc-800 bg-zinc-950 p-8 md:p-12"
+    >
+      <p class="text-2xl leading-relaxed text-zinc-200 md:text-3xl">
+        “Good rooms are not decorated — they are edited. We remove the noise
+        until what remains feels inevitable.”
+      </p>
+      <footer class="mt-6 text-sm uppercase tracking-widest text-zinc-500">
+        — Johnathan Furlong
+      </footer>
+    </blockquote>
+  </section>
+
+  <!-- PROCESS (Less tech, more craft) -->
+  <section class="mx-auto max-w-7xl px-6 pb-8">
+    <div class="grid gap-10 md:grid-cols-3">
+      <div class="rounded-3xl border border-zinc-800 bg-zinc-950 p-7">
+        <p class="text-xs tracking-[0.25em] text-zinc-500">Phase I</p>
+        <h3 class="mt-2 text-xl font-semibold text-zinc-100">
+          Listening & Study
+        </h3>
+        <p class="mt-3 text-zinc-400">
+          We begin with rhythm — light, movement, and your rituals. Materials
+          are tested in hand; a palette emerges.
+        </p>
+      </div>
+      <div class="rounded-3xl border border-zinc-800 bg-zinc-950 p-7">
+        <p class="text-xs tracking-[0.25em] text-zinc-500">Phase II</p>
+        <h3 class="mt-2 text-xl font-semibold text-zinc-100">Composition</h3>
+        <p class="mt-3 text-zinc-400">
+          Plan, proportion, and negative space. Bespoke details are drawn to
+          guide the craft with precision.
+        </p>
+      </div>
+      <div class="rounded-3xl border border-zinc-800 bg-zinc-950 p-7">
+        <p class="text-xs tracking-[0.25em] text-zinc-500">Phase III</p>
+        <h3 class="mt-2 text-xl font-semibold text-zinc-100">Build & Calm</h3>
+        <p class="mt-3 text-zinc-400">
+          We steward fabrication and installation so the final room arrives
+          quiet — effortless, resolved, and warm.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES (soft, editorial) -->
+  <section class="mx-auto max-w-7xl px-6 py-16">
+    <div class="grid gap-12 md:grid-cols-2">
+      <div>
+        <h2 class="text-2xl font-bold text-zinc-200">Practice</h2>
+        <p class="mt-4 max-w-xl text-zinc-400">
+          Full-service interior design for residential, hospitality, and
+          selective commercial projects. Scope ranges from concept to turn‑key
+          installation, with art placement and styling.
+        </p>
+        <div class="mt-6 flex flex-wrap gap-2 text-[12px]">
+          <span
+            class="rounded-full border border-zinc-800/80 px-3 py-1 text-zinc-400"
+            >Concept & Schematic</span
+          >
+          <span
+            class="rounded-full border border-zinc-800/80 px-3 py-1 text-zinc-400"
+            >FF&E + Custom</span
+          >
+          <span
+            class="rounded-full border border-zinc-800/80 px-3 py-1 text-zinc-400"
+            >Materials & Palette</span
+          >
+          <span
+            class="rounded-full border border-zinc-800/80 px-3 py-1 text-zinc-400"
+            >Art Direction</span
+          >
+          <span
+            class="rounded-full border border-zinc-800/80 px-3 py-1 text-zinc-400"
+            >Construction Liaison</span
+          >
+          <span
+            class="rounded-full border border-zinc-800/80 px-3 py-1 text-zinc-400"
+            >Styling</span
+          >
+        </div>
+      </div>
+      <div class="rounded-3xl border border-zinc-800 bg-zinc-950 p-8">
+        <h3 class="text-lg font-semibold text-zinc-100">Selected Notes</h3>
+        <ul class="mt-4 space-y-3 text-zinc-300">
+          <li class="flex items-start gap-3">
+            <span class="mt-1 inline-block h-1.5 w-1.5 rounded-full bg-zinc-500"
+            ></span><span
+              >Projects featured in national press; guest appearances in design
+              television.</span
+            >
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="mt-1 inline-block h-1.5 w-1.5 rounded-full bg-zinc-500"
+            ></span><span
+              >Known for refined palettes, layered textures, and tailored
+              millwork.</span
+            >
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="mt-1 inline-block h-1.5 w-1.5 rounded-full bg-zinc-500"
+            ></span><span
+              >Collaborates closely with makers and trades to maintain integrity
+              of detail.</span
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIAL / SOCIAL PROOF -->
+  <section class="mx-auto max-w-7xl px-6 pb-20">
+    <div class="rounded-3xl border border-zinc-800 bg-zinc-950 p-8 md:p-12">
+      <div class="grid items-center gap-8 md:grid-cols-5">
+        <div class="md:col-span-3">
+          <p class="text-xl leading-relaxed text-zinc-200 md:text-2xl">
+            “Johnathan redesigned our townhouse with a calm we didn’t know we
+            needed. The light, the storage, the palette — everything feels
+            intentional.”
+          </p>
+          <p class="mt-4 text-sm text-zinc-500">— Private Client, Summerhill</p>
+        </div>
+        <div class="md:col-span-2">
+          <div class="grid grid-cols-3 gap-3">
+            <div
+              class="aspect-square rounded-xl border border-zinc-800 bg-zinc-900/40"
+            >
+            </div>
+            <div
+              class="aspect-square rounded-xl border border-zinc-800 bg-zinc-900/40"
+            >
+            </div>
+            <div
+              class="aspect-square rounded-xl border border-zinc-800 bg-zinc-900/40"
+            >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT / CTA -->
+  <section class="mx-auto max-w-7xl px-6 pb-28 text-center">
+    <p class="tracking-[0.35em] text-[11px] uppercase text-zinc-500">
+      Enquiries
+    </p>
+    <h2 class="mt-3 text-3xl font-bold text-zinc-100 sm:text-4xl">
+      Let’s design something quiet and unforgettable.
+    </h2>
+    <p class="mx-auto mt-4 max-w-xl text-zinc-400">
+      Currently booking a limited number of projects for the coming season.
+    </p>
+    <a
+      href="/contact"
+      class="mt-8 inline-block rounded-2xl bg-zinc-100 px-7 py-3 font-semibold text-black shadow-sm transition hover:bg-white/90"
+      >Start a conversation</a
+    >
+  </section>
+</Layout>
