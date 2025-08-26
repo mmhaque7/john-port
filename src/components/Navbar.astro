@@ -9,8 +9,8 @@ export interface Props {
   items: NavItem[];
   brand?: { name: string; href?: string; logoSrc?: string; alt?: string };
   cta?: { label: string; href: string } | null;
-  currentPath?: string; // e.g., Astro.url.pathname from the page
-  sticky?: boolean; // makes the header stick to top
+  currentPath?: string;
+  sticky?: boolean;
 }
 
 const {
