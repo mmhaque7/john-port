@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar.astro";
 import Hero from "../components/Hero.astro";
 import ImageCarousel from "../components/ImageCarousel.astro";
 import Layout from "../layouts/Layout.astro";
+import HeroShowcase from "../components/HeroShowcase.astro";
 
 const images = [
   {
@@ -55,6 +56,17 @@ const navItems = [
     ctaText="Book a Consultation"
     ctaLink="/contact"
     imageUrl="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1300&q=80"
+  />
+  <HeroShowcase
+    imageSrc="/images/mono-shelves.jpg"
+    imageAlt="Modern built-in shelves and fireplace"
+    headline="THAT GREAT DESIGN"
+    accent="is forever"
+    copy="We craft holistic spaces that balance function and calm. Monochrome materials, quiet textures, and refined details tell your story with restraint."
+    name="Isabelle B."
+    title="Principal / Founder"
+    ctaLabel="Learn More"
+    ctaHref="/about"
   />
 
   <ImageCarousel images={images} title="Work" /></Layout
