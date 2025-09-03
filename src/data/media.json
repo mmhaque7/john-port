@@ -1,0 +1,44 @@
+[
+  {
+    "size": "970×250",
+    "src": "https://images.unsplash.com/photo-1549880338-65ddcdfd017b?q=80&w=1600&auto=format&fit=crop",
+    "aria": "Leaderboard, 970 by 250",
+    "spanClass": "col-span-12",
+    "aspect": "aspect-[16/9]"
+  },
+  {
+    "size": "970×250",
+    "src": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1600&auto=format&fit=crop",
+    "aria": "Billboard, 970 by 250",
+    "spanClass": "col-span-12 md:col-span-8",
+    "aspect": "aspect-[16/9]"
+  },
+  {
+    "size": "300×250",
+    "src": "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1200&auto=format&fit=crop",
+    "aria": "MPU, 300 by 250",
+    "spanClass": "col-span-12 md:col-span-4",
+    "aspect": "aspect-square"
+  },
+  {
+    "size": "160×600",
+    "src": "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=1000&auto=format&fit=crop",
+    "aria": "Skyscraper, 160 by 600",
+    "spanClass": "col-span-12 md:col-span-3",
+    "aspect": "aspect-[4/5]"
+  },
+  {
+    "size": "300×600",
+    "src": "https://images.unsplash.com/photo-1520975922215-230f72c2c5b7?q=80&w=1600&auto=format&fit=crop",
+    "aria": "Half Page, 300 by 600",
+    "spanClass": "col-span-12 md:col-span-6",
+    "aspect": "aspect-[16/9]"
+  },
+  {
+    "size": "320×50",
+    "src": "https://images.unsplash.com/photo-1482192505345-5655af888cc4?q=80&w=1600&auto=format&fit=crop",
+    "aria": "Mobile Banner, 320 by 50",
+    "spanClass": "col-span-12 md:col-span-6",
+    "aspect": "aspect-[16/9]"
+  }
+]
