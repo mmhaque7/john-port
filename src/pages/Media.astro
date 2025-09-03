@@ -1,7 +1,8 @@
 ---
-// src/pages/media.astro
 import Navbar from "../components/Navbar.astro";
 import Layout from "../layouts/Layout.astro";
+import ads from "../data/media.json"; // import JSON
+
 const pageTitle = "Media Ad Gallery — B&W → Color on Hover/Focus";
 
 const navItems = [
@@ -23,270 +24,64 @@ const navItems = [
     cta={{ label: "Contact", href: "/Contact" }}
     currentPath={Astro.url.pathname}
   />
-  <main class="wrap" aria-labelledby="pageTitle">
-    <header>
-      <h1 id="pageTitle">Media Gallery</h1>
-      <p class="sub">here goes some text!</p>
+
+  <main
+    class="max-w-[1200px] mx-auto px-5 md:px-6 py-12 md:py-16 text-zinc-100"
+  >
+    <header class="mb-7">
+      <h1
+        id="pageTitle"
+        class="font-extrabold text-[28px] md:text-[44px] leading-none"
+      >
+        Media Gallery
+      </h1>
+      <p class="text-zinc-400 max-w-prose leading-relaxed">
+        here goes some text!
+      </p>
     </header>
 
-    <section class="adgrid" id="gallery" aria-label="Ad placements gallery">
-      <!-- Leaderboard -->
-      <figure
-        class="card ad-span-12"
-        tabindex="0"
-        role="img"
-        aria-label="Leaderboard, 970 by 250"
-      >
-        <div class="imgwrap">
-          <img
-            class="bw"
-            src="https://images.unsplash.com/photo-1549880338-65ddcdfd017b?q=80&w=1600&auto=format&fit=crop"
-            alt=""
-          />
-        </div>
-        <figcaption class="cap">
-          <span class="tag">Leaderboard</span><span class="size">970×250</span>
-        </figcaption>
-      </figure>
+    <section
+      class="grid grid-cols-12 gap-4 md:gap-4"
+      id="gallery"
+      aria-label="Ad placements gallery"
+    >
+      {
+        ads.map((ad) => (
+          <figure
+            class={`group relative overflow-hidden rounded-2xl bg-[#101012] outline outline-1 outline-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.38)] ${ad.spanClass}`}
+            tabindex="0"
+            role="img"
+            aria-label={ad.aria}
+          >
+            <div class={`${ad.aspect} relative`}>
+              <img
+                src={ad.src}
+                alt=""
+                class="absolute inset-0 w-full h-full object-cover
+                     filter grayscale contrast-110
+                     transition duration-200 ease-linear
+                     hover:grayscale-0 hover:contrast-105 hover:saturate-110
+                     group-focus-visible:grayscale-0
+                     motion-reduce:transition-none
+                     group-hover:scale-[1.02] group-focus-visible:scale-[1.02]"
+              />
+            </div>
 
-      <!-- Billboard -->
-      <figure
-        class="card ad-span-8"
-        tabindex="0"
-        role="img"
-        aria-label="Billboard, 970 by 250"
-      >
-        <div class="imgwrap">
-          <img
-            class="bw"
-            src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1600&auto=format&fit=crop"
-            alt=""
-          />
-        </div>
-        <figcaption class="cap">
-          <span class="tag">Billboard</span><span class="size">970×250</span>
-        </figcaption>
-      </figure>
+            <figcaption
+              class="absolute inset-x-0 bottom-0 px-4 py-3
+                   bg-gradient-to-t from-black/70 to-transparent
+                   flex items-center justify-end gap-2 text-zinc-200"
+            >
+              <span class="text-[12px] text-zinc-400">{ad.size}</span>
+            </figcaption>
 
-      <!-- MPU / Box -->
-      <figure
-        class="card ad-span-4"
-        tabindex="0"
-        role="img"
-        aria-label="MPU, 300 by 250"
-      >
-        <div class="imgwrap square">
-          <img
-            class="bw"
-            src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1200&auto=format&fit=crop"
-            alt=""
-          />
-        </div>
-        <figcaption class="cap">
-          <span class="tag">MPU / Box</span><span class="size">300×250</span>
-        </figcaption>
-      </figure>
-
-      <!-- Skyscraper -->
-      <figure
-        class="card ad-span-3"
-        tabindex="0"
-        role="img"
-        aria-label="Skyscraper, 160 by 600"
-      >
-        <div class="imgwrap tall">
-          <img
-            class="bw"
-            src="https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=1000&auto=format&fit=crop"
-            alt=""
-          />
-        </div>
-        <figcaption class="cap">
-          <span class="tag">Skyscraper</span><span class="size">160×600</span>
-        </figcaption>
-      </figure>
-
-      <!-- Half Page -->
-      <figure
-        class="card ad-span-6"
-        tabindex="0"
-        role="img"
-        aria-label="Half Page, 300 by 600"
-      >
-        <div class="imgwrap">
-          <img
-            class="bw"
-            src="https://images.unsplash.com/photo-1520975922215-230f72c2c5b7?q=80&w=1600&auto=format&fit=crop"
-            alt=""
-          />
-        </div>
-        <figcaption class="cap">
-          <span class="tag">Half Page</span><span class="size">300×600</span>
-        </figcaption>
-      </figure>
-
-      <!-- Mobile Banner -->
-      <figure
-        class="card ad-span-6"
-        tabindex="0"
-        role="img"
-        aria-label="Mobile Banner, 320 by 50"
-      >
-        <div class="imgwrap">
-          <img
-            class="bw"
-            src="https://images.unsplash.com/photo-1482192505345-5655af888cc4?q=80&w=1600&auto=format&fit=crop"
-            alt=""
-          />
-        </div>
-        <figcaption class="cap">
-          <span class="tag">Mobile Banner</span><span class="size">320×50</span>
-        </figcaption>
-      </figure>
+            <span
+              class="pointer-events-none absolute inset-0 rounded-2xl
+                   ring-0 group-focus-visible:ring-2 ring-sky-400 ring-offset-2 ring-offset-transparent"
+            />
+          </figure>
+        ))
+      }
     </section>
   </main>
-
-  <style>
-    :root {
-      --fg: #f2f2f2;
-      --muted: #a0a0a0;
-      --ring: #6ea8ff;
-    }
-    * {
-      box-sizing: border-box;
-    }
-    figure {
-      margin: 0;
-    }
-
-    .wrap {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 48px 20px 80px;
-      color: var(--fg);
-    }
-    header {
-      margin-bottom: 28px;
-    }
-    h1 {
-      font-weight: 800;
-      font-size: clamp(28px, 4vw, 44px);
-      margin: 0 0 8px;
-    }
-    .sub {
-      color: var(--muted);
-      max-width: 65ch;
-      line-height: 1.5;
-    }
-
-    .adgrid {
-      display: grid;
-      grid-template-columns: repeat(12, minmax(0, 1fr));
-      gap: 16px;
-    }
-    .card {
-      position: relative;
-      overflow: hidden;
-      border-radius: 18px;
-      background: #101012;
-      outline: 1px solid #ffffff12;
-      box-shadow:
-        0 10px 30px #00000060,
-        inset 0 1px 0 #ffffff10;
-    }
-    .ad-span-12 {
-      grid-column: span 12;
-    }
-    .ad-span-8 {
-      grid-column: span 8;
-    }
-    .ad-span-6 {
-      grid-column: span 6;
-    }
-    .ad-span-4 {
-      grid-column: span 4;
-    }
-    .ad-span-3 {
-      grid-column: span 3;
-    }
-    @media (max-width: 900px) {
-      .ad-span-12,
-      .ad-span-8,
-      .ad-span-6,
-      .ad-span-4,
-      .ad-span-3 {
-        grid-column: span 12;
-      }
-    }
-
-    .imgwrap {
-      aspect-ratio: 16/9;
-      position: relative;
-    }
-    .imgwrap.tall {
-      aspect-ratio: 4/5;
-    }
-    .imgwrap.square {
-      aspect-ratio: 1/1;
-    }
-
-    /* B&W by default */
-    .bw {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: grayscale(100%) contrast(110%);
-      transition:
-        filter 0.2s ease,
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
-      display: block;
-    }
-
-    /* Reveal color on hover OR keyboard focus */
-    .card:hover .bw,
-    .card:focus-visible .bw {
-      filter: grayscale(0%) contrast(105%) saturate(110%);
-      transform: scale(1.02);
-    }
-
-    /* Accessible focus ring on the focused card */
-    .card:focus-visible {
-      outline: 2px solid var(--ring);
-      outline-offset: 3px;
-    }
-
-    .cap {
-      position: absolute;
-      inset: auto 0 0 0;
-      padding: 14px 16px 16px;
-      background: linear-gradient(to top, #000c 0%, #0000 80%);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      color: #eaeaea;
-    }
-    .tag {
-      font-size: 12px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      opacity: 0.9;
-    }
-    .size {
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    /* Reduce motion preference */
-    @media (prefers-reduced-motion: reduce) {
-      .bw {
-        transition: none;
-      }
-      .card:hover .bw,
-      .card:focus-visible .bw {
-        transform: none;
-      }
-    }
-  </style>
 </Layout>
