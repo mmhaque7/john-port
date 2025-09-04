@@ -1,16 +1,9 @@
-/**
- * image-carousel-scoped.ts
- * Scopes all queries to a given root element.
- * Works with multiple carousels per page. Strong TS types.
- */
-
 type SubImg = { src: string; alt?: string; detail?: string };
 type Project = { src: string; alt: string; detail: string; gallery?: SubImg[] };
 type Slide = { src: string; alt: string; detail?: string };
 
 const $ = <T extends Element>(root: ParentNode, sel: string) =>
   root.querySelector<T>(sel);
-
 const $$ = <T extends Element>(root: ParentNode, sel: string) =>
   root.querySelectorAll<T>(sel);
 
@@ -18,7 +11,12 @@ const hasHTML = (s?: string) => !!s && /<[a-z][\s\S]*>/i.test(s);
 const clamp = (i: number, len: number) => (len ? (i + len) % len : 0);
 
 export default function initCarousel(root: ParentNode): void {
-  // Find DOM elements inside this root
+  // Prevent double-binding if called twice
+  const host = root as HTMLElement;
+  if (host.dataset.carouselReady === "1") return;
+  host.dataset.carouselReady = "1";
+
+  // Scoped lookups
   const dataEl = $<HTMLScriptElement>(root, '[data-role="data"]');
 
   const modal = $<HTMLDivElement>(root, '[data-role="modal"]');
@@ -47,9 +45,8 @@ export default function initCarousel(root: ParentNode): void {
     !prevBtn ||
     !nextBtn ||
     !thumbs
-  ) {
-    return; // essential nodes missing
-  }
+  )
+    return;
 
   // State (per instance)
   let projects: Project[] = [];
@@ -130,7 +127,7 @@ export default function initCarousel(root: ParentNode): void {
     if (!s) return;
     currentSlide = safe;
 
-    // crossfade
+    // Crossfade
     modalImg!.style.opacity = "0";
     requestAnimationFrame(() => {
       modalImg!.src = s.src;
@@ -194,7 +191,7 @@ export default function initCarousel(root: ParentNode): void {
   prevBtn!.addEventListener("click", prev);
   modalImg!.addEventListener("click", next);
 
-  // Keyboard (only when modal is open)
+  // Keyboard (while modal open)
   window.addEventListener("keydown", (e: KeyboardEvent) => {
     if (modal!.classList.contains("hidden")) return;
     if (e.key === "Escape") closeModal();
@@ -202,7 +199,7 @@ export default function initCarousel(root: ParentNode): void {
     if (e.key === "ArrowLeft") prev();
   });
 
-  // Swipe on image
+  // Swipe
   let startX = 0,
     startY = 0,
     touching = false;
@@ -227,17 +224,4 @@ export default function initCarousel(root: ParentNode): void {
       dx < 0 ? next() : prev();
     }
   });
-}
-
-const currentScript = document.currentScript as HTMLScriptElement | null;
-
-if (currentScript) {
-  const root = currentScript.closest("[data-carousel-root]") ?? document;
-  initCarousel(root);
-} else {
-  document
-    .querySelectorAll<HTMLElement>("[data-carousel-root]")
-    .forEach((root) => {
-      initCarousel(root);
-    });
 }
