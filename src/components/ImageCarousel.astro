@@ -1,8 +1,21 @@
 ---
+/**
+ * Uses Vite URL import so the browser gets JS (not TS).
+ * Path: src/components/ImageCarousel.astro  →  src/scripts/image-carousel-scoped.ts
+ */
+import carouselScriptUrl from "../scripts/image-carousel-scoped.ts?url";
+
+export interface SubImage {
+  src: string;
+  alt?: string;
+  detail?: string; // HTML or plain text
+}
+
 export interface ImageData {
   src: string;
   alt: string;
   detail: string; // HTML or plain text
+  gallery?: SubImage[]; // extra images for this project
 }
 
 export interface Props {
@@ -13,15 +26,19 @@ export interface Props {
 const { images, title } = Astro.props;
 ---
 
-<section class="bg-black py-12 sm:py-16 text-white">
+<section class="bg-black py-12 sm:py-16 text-white" data-carousel-root>
   <div class="max-w-6xl mx-auto px-4">
-    <h2 class="text-2xl sm:text-3xl font-bold mb-6 sm:mb-10 text-center">{title}</h2>
+    <h2 class="text-2xl sm:text-3xl font-bold mb-6 sm:mb-10 text-center">
+      {title}
+    </h2>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+    <!-- Project cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
       {
         images.map((img, i) => (
           <button
             class="group relative overflow-hidden rounded-xl shadow focus:outline-none focus:ring-2 focus:ring-white/60 active:scale-[0.99] transition-transform"
+            data-role="open"
             data-index={i}
             aria-label={`Open: ${img.alt}`}
           >
@@ -32,128 +49,99 @@ const { images, title } = Astro.props;
               class="w-full aspect-[4/3] object-cover"
             />
             <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition" />
+            {img.gallery?.length ? (
+              <span class="absolute bottom-2 right-2 text-xs bg-black/70 px-2 py-1 rounded-md">
+                +{img.gallery.length}
+              </span>
+            ) : null}
           </button>
         ))
       }
     </div>
   </div>
 
-  <!-- Modal -->
+  <!-- Modal (scoped with data-role selectors) -->
   <div
-    id="modal"
+    data-role="modal"
     class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden"
     aria-hidden="true"
   >
-    <button id="overlay" class="absolute inset-0" aria-label="Close modal"></button>
+    <button
+      data-role="overlay"
+      class="absolute inset-0"
+      aria-label="Close modal"></button>
 
     <div
-      class="relative mx-auto my-6 sm:my-10 w-[92vw] sm:w-[90vw] max-w-3xl bg-white text-black rounded-2xl shadow-xl overflow-hidden animate-fadeIn"
+      class="relative mx-auto my-6 sm:my-10 w-[92vw] sm:w-[90vw] max-w-5xl bg-white text-black rounded-2xl shadow-xl overflow-hidden animate-fadeIn"
       role="dialog"
       aria-modal="true"
       aria-labelledby="modalTitle"
     >
       <button
-        id="closeModal"
+        data-role="close"
         class="absolute top-3 right-3 h-10 w-10 grid place-items-center rounded-full text-2xl text-gray-600 hover:text-gray-800 hover:bg-gray-100"
-        aria-label="Close modal"
+        aria-label="Close modal">&times;</button
       >
-        &times;
-      </button>
 
-      <div class="bg-black">
-        <img id="modalImage" src="" alt="" class="w-full max-h-[60vh] sm:max-h-[70vh] object-contain" />
+      <div class="relative bg-black">
+        <img
+          data-role="image"
+          src=""
+          alt=""
+          class="w-full max-h-[60vh] sm:max-h-[70vh] object-contain"
+        />
+        <button
+          data-role="prev"
+          class="absolute left-2 top-1/2 -translate-y-1/2 h-10 w-10 grid place-items-center rounded-full bg-white/80 hover:bg-white shadow focus:outline-none focus:ring-2 focus:ring-black/50"
+          aria-label="Previous image">‹</button
+        >
+        <button
+          data-role="next"
+          class="absolute right-2 top-1/2 -translate-y-1/2 h-10 w-10 grid place-items-center rounded-full bg-white/80 hover:bg-white shadow focus:outline-none focus:ring-2 focus:ring-black/50"
+          aria-label="Next image">›</button
+        >
+        <div
+          data-role="progress"
+          class="absolute left-2 top-2 text-xs bg-white/80 text-black px-2 py-1 rounded-md"
+        >
+        </div>
+      </div>
+
+      <div class="px-4 py-3 bg-white border-b">
+        <div data-role="thumbs" class="flex gap-2 overflow-x-auto"></div>
       </div>
 
       <div class="p-5 sm:p-6 max-h-[40vh] sm:max-h-[35vh] overflow-y-auto">
-        <h3 id="modalTitle" class="text-base sm:text-lg font-semibold mb-2"></h3>
-        <div id="modalContent" class="prose prose-sm max-w-none"></div>
+        <h3 data-role="title" class="text-base sm:text-lg font-semibold mb-2">
+        </h3>
+        <div data-role="content" class="prose prose-sm max-w-none"></div>
       </div>
     </div>
   </div>
 
-  <script type="application/json" id="carousel-data" set:html={JSON.stringify(images)} />
+  <!-- Data for this instance -->
+  <script
+    type="application/json"
+    data-role="data"
+    set:html={JSON.stringify(images)}
+  />
 
   <style is:global>
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(12px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
-    .animate-fadeIn { animation: fadeIn 0.25s ease-out forwards; }
+    .animate-fadeIn {
+      animation: fadeIn 0.25s ease-out forwards;
+    }
   </style>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      // Types
-      type ImageData = { src: string; alt: string; detail: string };
-
-      const dataScript = document.getElementById("carousel-data") as HTMLScriptElement | null;
-      const images: ImageData[] = dataScript?.textContent
-        ? (JSON.parse(dataScript.textContent) as ImageData[])
-        : [];
-
-      const modal = document.getElementById("modal") as HTMLDivElement | null;
-      const overlay = document.getElementById("overlay") as HTMLButtonElement | null;
-      const closeBtn = document.getElementById("closeModal") as HTMLButtonElement | null;
-
-      const modalImg = document.getElementById("modalImage") as HTMLImageElement | null;
-      const modalTitle = document.getElementById("modalTitle") as HTMLHeadingElement | null;
-      const modalContent = document.getElementById("modalContent") as HTMLDivElement | null;
-
-      let lastFocused: HTMLElement | null = null;
-
-      const lockScroll = (on: boolean): void => {
-        document.documentElement.style.overflow = on ? "hidden" : "";
-        document.body.style.overflow = on ? "hidden" : "";
-      };
-
-      const hasHTML = (s: string | undefined): boolean =>
-        !!s && /<[a-z][\s\S]*>/i.test(s);
-
-      const openModal = (index: number): void => {
-        if (!modal || !modalImg || !modalTitle || !modalContent) return;
-        const item = images[index];
-        if (!item) return;
-
-        modalImg.src = item.src;
-        modalImg.alt = item.alt || "";
-        modalTitle.textContent = item.alt || `Image ${index + 1}`;
-        if (hasHTML(item.detail)) {
-          modalContent.innerHTML = item.detail;
-        } else {
-          modalContent.textContent = item.detail || "";
-        }
-
-        modal.classList.remove("hidden");
-        modal.setAttribute("aria-hidden", "false");
-        lockScroll(true);
-        lastFocused = (document.activeElement as HTMLElement) || null;
-        closeBtn?.focus();
-      };
-
-      const closeModal = (): void => {
-        if (!modal) return;
-        modal.classList.add("hidden");
-        modal.setAttribute("aria-hidden", "true");
-        lockScroll(false);
-        lastFocused?.focus?.();
-      };
-
-      // Open handlers with typed NodeList
-      document.querySelectorAll<HTMLButtonElement>("[data-index]").forEach((el) => {
-        el.addEventListener("click", () => {
-          const raw = el.getAttribute("data-index");
-          const index = Number(raw ?? 0);
-          openModal(index);
-        });
-      });
-
-      overlay?.addEventListener("click", closeModal);
-      closeBtn?.addEventListener("click", closeModal);
-
-      window.addEventListener("keydown", (e: KeyboardEvent) => {
-        if (!modal || modal.classList.contains("hidden")) return;
-        if (e.key === "Escape") closeModal();
-      });
-    });
-  </script>
+  <!-- ✅ MIME-safe: Vite-built JS URL -->
+  <script type="module" src={carouselScriptUrl}></script>
 </section>

@@ -1,54 +1,62 @@
 ---
 import Navbar from "../components/Navbar.astro";
-
 import Hero from "../components/Hero.astro";
 import ImageCarousel from "../components/ImageCarousel.astro";
 import Layout from "../layouts/Layout.astro";
 import HeroShowcase from "../components/HeroShowcase.astro";
 
+/**
+ * Each item is a "project". Add optional `gallery` with extra images
+ * to show inside the modal carousel for that project.
+ */
 const images = [
   {
-    src: "https://res.cloudinary.com/didltutgq/image/upload/v1756476879/FullSizeRender_zixarr.jpg",
+    src: "https://res.cloudinary.com/didltutgq/image/upload/v1757006129/IMG_2630_t3xoju.jpg",
     alt: "Residential",
     detail:
-      '<h2 class="text-xl font-semibold mb-2">Master Bath Room</h2><p>Render of Master Bathroom.</p>',
-  },
-  {
-    src: "https://res.cloudinary.com/didltutgq/image/upload/v1756477933/IMG_2702_blv7ge.jpg",
-    alt: "Residential",
-    detail:
-      '<h2 class="text-xl font-semibold mb-2">Dining Room - Niagra</h2><p>Full home decoration project in Niagara — blending style, comfort, and timeless design.</p>',
+      '<h2 class="text-xl font-semibold mb-2">Dining Room - Niagara</h2><p>Full home decoration project in Niagara — blending style, comfort, and timeless design.</p>',
+    // OPTIONAL extra images for this project:
+    gallery: [
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1756477933/IMG_2702_blv7ge.jpg",
+        alt: "Dining Room – angle 2",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757010271/IMG_2649_fdu7mx.jpg",
+        alt: "Dining Room – detail",
+      },
+    ],
   },
   {
     src: "https://res.cloudinary.com/didltutgq/image/upload/v1756479602/IMG_3413_kfq4dh.jpg",
     alt: "Residential",
     detail:
-      '<h2 class="text-xl font-semibold mb-2">Lakeside Drive - Living Room </h2><p>Full home decoration project in Lakeside — blending style, comfort, and timeless design.</p>',
+      '<h2 class="text-xl font-semibold mb-2">Lakeside Drive - Living Room</h2><p>Full home decoration project in Lakeside — blending style, comfort, and timeless design.</p>',
+    // gallery: [], // add if you have more
   },
-
   {
     src: "https://res.cloudinary.com/didltutgq/image/upload/v1756481525/IMG_3773_v7u44f.jpg",
     alt: "Commercial",
     detail:
-      '<h2 class="text-xl font-semibold mb-2">Padella Italian Eatery</h2><p>A full Italian restaurant decoration project in Toronto, thoughtfully designed to create a welcoming and stylish dining atmosphere. -</p>',
+      '<h2 class="text-xl font-semibold mb-2">Padella Italian Eatery</h2><p>A full Italian restaurant decoration project in Toronto, thoughtfully designed to create a welcoming and stylish dining atmosphere.</p>',
   },
   {
-    src: "  https://res.cloudinary.com/didltutgq/image/upload/v1756483047/IMG_2844_v2vnrl.jpg",
-    alt: "Comercial",
+    src: "https://res.cloudinary.com/didltutgq/image/upload/v1756483047/IMG_2844_v2vnrl.jpg",
+    alt: "Commercial",
     detail:
-      '<h2 class="text-xl font-semibold mb-2">Joga House - Boutique Yoga Studio</h2><p>“Interior design for Joga House, a boutique yoga studio thoughtfully crafted to inspire calm, focus, and balance.</p>',
+      '<h2 class="text-xl font-semibold mb-2">Joga House - Boutique Yoga Studio</h2><p>Interior design for Joga House, crafted to inspire calm, focus, and balance.</p>',
   },
   {
     src: "https://res.cloudinary.com/didltutgq/image/upload/v1756484333/IMG_0010_juy4pt.jpg",
     alt: "Residential",
     detail:
-      '<h2 class="text-xl font-semibold mb-2">Raymar Home</h2><p>Full home decoration project — featuring modern interiors, artistic wall displays, and a seamless open-concept design </p>',
+      '<h2 class="text-xl font-semibold mb-2">Raymar Home</h2><p>Full home decoration project — featuring modern interiors, artistic wall displays, and a seamless open-concept design.</p>',
   },
   {
     src: "https://res.cloudinary.com/didltutgq/image/upload/v1756489522/IMG_6404_y2cqux.jpg",
     alt: "Residential",
     detail:
-      '<h2 class="text-xl font-semibold mb-2">Port credit - Home</h2><p>Full home decoration project in Port Credit — blending style, comfort, and timeless design.</p>',
+      '<h2 class="text-xl font-semibold mb-2">Port Credit - Home</h2><p>Full home decoration project in Port Credit — blending style, comfort, and timeless design.</p>',
   },
   {
     src: "https://res.cloudinary.com/didltutgq/image/upload/v1756490122/IMG_3279_n94j7o.jpg",
@@ -58,32 +66,23 @@ const images = [
   },
   {
     src: "https://res.cloudinary.com/didltutgq/image/upload/v1756490298/IMG_3227_1_nwlpua.jpg",
-    alt: "Comercial",
+    alt: "Commercial",
     detail:
-      '<h2 class="text-xl font-semibold mb-2"></h2><p>Contemporary restaurant lounge — blending clean lines, statement lighting, and cozy fireplace accents.</p>',
+      '<h2 class="text-xl font-semibold mb-2">Contemporary Lounge</h2><p>Contemporary restaurant lounge — blending clean lines, statement lighting, and cozy fireplace accents.</p>',
   },
-
   {
     src: "https://res.cloudinary.com/didltutgq/image/upload/v1756490423/IMG_6792_mydszb.jpg",
     alt: "Residential",
     detail:
-      '<h2 class="text-xl font-semibold mb-2">Brant st Penthouse </h2><p>Full Condo Penthouse decoration project in Brant St Hill — blending style, comfort, and timeless design</p>',
+      '<h2 class="text-xl font-semibold mb-2">Brant St Penthouse</h2><p>Full condo penthouse project — refined, comfortable, and timeless.</p>',
   },
-  /*{
-    src: "",
-    alt: "",
-    detail: '<h2 class="text-xl font-semibold mb-2"></h2><p></p>',
-  },*/
 ];
 
 const navItems = [
   { href: "/about", label: "About" },
-  { href: "/media", label: "Media" },
+  { href: "/Media", label: "Media" },
   { href: "/blog", label: "Blog" },
 ];
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
 <Layout>
@@ -106,6 +105,7 @@ const navItems = [
     ctaLink="/contact"
     imageUrl="https://res.cloudinary.com/didltutgq/image/upload/v1756395552/IMG_2026_abu8nh.jpg"
   />
+
   <HeroShowcase
     imageSrc="/images/mono-shelves.jpg"
     imageAlt="Modern built-in shelves and fireplace"
@@ -118,5 +118,6 @@ const navItems = [
     ctaHref="/about"
   />
 
+  <!-- The project grid + modal carousel -->
   <ImageCarousel images={images} title="The Collection" />
 </Layout>
