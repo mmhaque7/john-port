@@ -1,28 +1,25 @@
 ---
 /**
- * Uses Vite URL import so the browser gets JS (not TS).
- * Path: src/components/ImageCarousel.astro  →  src/scripts/image-carousel-scoped.ts
+ * ImageCarousel.astro (scoped)
+ * - Grid of project cards
+ * - Modal per project with its own carousel (main + gallery)
+ * - Inline ES module imports TS and initializes all instances
  */
-import carouselScriptUrl from "../scripts/image-carousel-scoped.ts?url";
-
 export interface SubImage {
   src: string;
   alt?: string;
   detail?: string; // HTML or plain text
 }
-
 export interface ImageData {
   src: string;
   alt: string;
   detail: string; // HTML or plain text
   gallery?: SubImage[]; // extra images for this project
 }
-
 export interface Props {
   images: ImageData[];
   title: string;
 }
-
 const { images, title } = Astro.props;
 ---
 
@@ -32,7 +29,7 @@ const { images, title } = Astro.props;
       {title}
     </h2>
 
-    <!-- Project cards -->
+    <!-- Projects grid -->
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
       {
         images.map((img, i) => (
@@ -60,7 +57,7 @@ const { images, title } = Astro.props;
     </div>
   </div>
 
-  <!-- Modal (scoped with data-role selectors) -->
+  <!-- Modal (scoped via data-role) -->
   <div
     data-role="modal"
     class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden"
@@ -119,7 +116,7 @@ const { images, title } = Astro.props;
     </div>
   </div>
 
-  <!-- Data for this instance -->
+  <!-- Per-instance data -->
   <script
     type="application/json"
     data-role="data"
@@ -142,6 +139,12 @@ const { images, title } = Astro.props;
     }
   </style>
 
-  <!-- ✅ MIME-safe: Vite-built JS URL -->
-  <script type="module" src={carouselScriptUrl}></script>
+  <script type="module">
+    import initCarousel from "/src/scripts/image-carousel-scoped.ts"; // <-- absolute path from /src
+
+    // Initialize every instance on the page (safe if there's only one)
+    document.querySelectorAll("[data-carousel-root]").forEach((root) => {
+      initCarousel(root);
+    });
+  </script>
 </section>
