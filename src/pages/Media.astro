@@ -5,11 +5,14 @@ import ads from "../data/media.json"; // import JSON
 
 const pageTitle = "Media Ad Gallery — B&W → Color on Hover/Focus";
 
+import logo from "../assets/logo.png";
+
 const navItems = [
   { href: "/about", label: "About" },
   { href: "/Media", label: "Media" },
   { href: "/blog", label: "Blog" },
 ];
+
 ---
 
 <Layout title={pageTitle}>
@@ -18,7 +21,7 @@ const navItems = [
     brand={{
       name: "MySite",
       href: "/",
-      logoSrc: "src/assets/logo.png",
+      logoSrc: logo.src,
       alt: "MySite logo",
     }}
     cta={{ label: "Contact", href: "/Contact" }}

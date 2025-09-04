@@ -10,6 +10,7 @@ const navItems = [
   { href: "/Media", label: "Media" },
   { href: "/blog", label: "Blog" },
 ];
+import logo from "../assets/logo.png";
 ---
 
 <Layout title={pageTitle}>
@@ -19,7 +20,7 @@ const navItems = [
     brand={{
       name: "MySite",
       href: "/",
-      logoSrc: "src/assets/logo.png",
+      logoSrc: logo.src,
       alt: "MySite logo",
     }}
     cta={{ label: "Contact", href: "/Contact" }}
