@@ -20,6 +20,9 @@ const {
   currentPath = "",
   sticky = true,
 } = Astro.props;
+
+import defaultLogo from "../assets/logo.png"; // fallback if brand.logoSrc not provided
+const logoUrl = brand.logoSrc ?? defaultLogo.src;
 ---
 
 <header class={`w-full ${sticky ? "sticky top-3 " : ""} z-50 bg-black`}>
@@ -37,7 +40,7 @@ const {
         {
           brand.logoSrc && (
             <img
-              src={brand.logoSrc}
+              src={logoUrl}
               width="250"
               height="250"
               alt={brand.alt ?? brand.name}
