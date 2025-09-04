@@ -1,10 +1,11 @@
 ---
 /**
- * ImageCarousel.astro (scoped)
+ * ImageCarousel.astro (all-in-one)
  * - Grid of project cards
  * - Modal per project with its own carousel (main + gallery)
- * - Inline ES module imports TS and initializes all instances
+ * - No external scripts; everything inline (no MIME problems)
  */
+
 export interface SubImage {
   src: string;
   alt?: string;
@@ -20,6 +21,7 @@ export interface Props {
   images: ImageData[];
   title: string;
 }
+
 const { images, title } = Astro.props;
 ---
 
@@ -139,12 +141,257 @@ const { images, title } = Astro.props;
     }
   </style>
 
-  <script type="module">
-    import initCarousel from "/src/scripts/image-carousel-scoped.ts"; // <-- absolute path from /src
+  <!-- Inline JS: no external requests, no MIME issues -->
+  <script is:inline>
+    // Helpers (plain JS)
+    const $$ = (root, sel) => root.querySelectorAll(sel);
+    const $ = (root, sel) => root.querySelector(sel);
+    const hasHTML = (s) => !!s && /<[a-z][\s\S]*>/i.test(s);
+    const clamp = (i, len) => (len ? (i + len) % len : 0);
 
-    // Initialize every instance on the page (safe if there's only one)
-    document.querySelectorAll("[data-carousel-root]").forEach((root) => {
-      initCarousel(root);
-    });
+    // Initialize every carousel instance on the page (safe if 1)
+    (function initAll() {
+      const hosts = document.querySelectorAll("[data-carousel-root]");
+      hosts.forEach((host) => initCarousel(host));
+    })();
+
+    function initCarousel(root) {
+      // Guard: prevent double-binding
+      if (root.dataset.carouselReady === "1") return;
+      root.dataset.carouselReady = "1";
+
+      // Scoped lookups
+      const dataEl = /** @type {HTMLScriptElement|null} */ (
+        $(root, '[data-role="data"]')
+      );
+
+      const modal = /** @type {HTMLDivElement|null} */ (
+        $(root, '[data-role="modal"]')
+      );
+      const overlay = /** @type {HTMLButtonElement|null} */ (
+        $(root, '[data-role="overlay"]')
+      );
+      const closeBtn = /** @type {HTMLButtonElement|null} */ (
+        $(root, '[data-role="close"]')
+      );
+
+      const modalImg = /** @type {HTMLImageElement|null} */ (
+        $(root, '[data-role="image"]')
+      );
+      const modalTitle = /** @type {HTMLHeadingElement|null} */ (
+        $(root, '[data-role="title"]')
+      );
+      const modalContent = /** @type {HTMLDivElement|null} */ (
+        $(root, '[data-role="content"]')
+      );
+      const progress = /** @type {HTMLDivElement|null} */ (
+        $(root, '[data-role="progress"]')
+      );
+
+      const prevBtn = /** @type {HTMLButtonElement|null} */ (
+        $(root, '[data-role="prev"]')
+      );
+      const nextBtn = /** @type {HTMLButtonElement|null} */ (
+        $(root, '[data-role="next"]')
+      );
+      const thumbs = /** @type {HTMLDivElement|null} */ (
+        $(root, '[data-role="thumbs"]')
+      );
+
+      const openers = /** @type {NodeListOf<HTMLButtonElement>} */ (
+        $$(root, '[data-role="open"]')
+      );
+
+      if (
+        !dataEl ||
+        !modal ||
+        !overlay ||
+        !closeBtn ||
+        !modalImg ||
+        !modalTitle ||
+        !modalContent ||
+        !prevBtn ||
+        !nextBtn ||
+        !thumbs
+      ) {
+        return; // essential nodes missing
+      }
+
+      // State (per instance)
+      let projects = [];
+      let currentProject = 0;
+      let slides = [];
+      let currentSlide = 0;
+      let lastFocused = null;
+
+      // Data
+      projects = dataEl.textContent ? JSON.parse(dataEl.textContent) : [];
+
+      // Helpers
+      const lockScroll = (on) => {
+        document.documentElement.style.overflow = on ? "hidden" : "";
+        document.body.style.overflow = on ? "hidden" : "";
+      };
+
+      const buildSlides = (p) => {
+        const main = { src: p.src, alt: p.alt, detail: p.detail };
+        const extras = (p.gallery ?? []).map((g) => ({
+          src: g.src,
+          alt: g.alt ?? p.alt,
+          detail: g.detail ?? p.detail,
+        }));
+        return [main, ...extras];
+      };
+
+      const preloadNeighbors = (i) => {
+        [clamp(i - 1, slides.length), clamp(i + 1, slides.length)].forEach(
+          (k) => {
+            const s = slides[k];
+            if (s && s.src) {
+              const img = new Image();
+              img.src = s.src;
+            }
+          }
+        );
+      };
+
+      const updateProgress = () => {
+        progress.textContent =
+          slides.length > 1 ? `${currentSlide + 1} / ${slides.length}` : "";
+      };
+
+      const renderThumbs = () => {
+        thumbs.innerHTML = "";
+        slides.forEach((s, i) => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className =
+            "shrink-0 relative rounded-lg overflow-hidden border border-black/10 focus:outline-none focus:ring-2 focus:ring-black/40";
+          btn.setAttribute("aria-label", `Go to slide ${i + 1}`);
+
+          const im = document.createElement("img");
+          im.src = s.src;
+          im.alt = s.alt || `Slide ${i + 1}`;
+          im.loading = "lazy";
+          im.className = "h-16 w-24 object-cover";
+
+          const hi = document.createElement("div");
+          hi.className =
+            i === currentSlide
+              ? "absolute inset-0 ring-2 ring-black rounded-lg"
+              : "absolute inset-0";
+
+          btn.appendChild(im);
+          btn.appendChild(hi);
+          btn.addEventListener("click", () => showSlide(i));
+          thumbs.appendChild(btn);
+        });
+      };
+
+      const showSlide = (index) => {
+        const safe = clamp(index, slides.length);
+        const s = slides[safe];
+        if (!s) return;
+        currentSlide = safe;
+
+        // Crossfade
+        modalImg.style.opacity = "0";
+        requestAnimationFrame(() => {
+          modalImg.src = s.src;
+          modalImg.alt = s.alt || "";
+          const p = projects[currentProject];
+          modalTitle.textContent =
+            (p && p.alt) || s.alt || `Image ${currentSlide + 1}`;
+          if (hasHTML(s.detail)) {
+            modalContent.innerHTML = s.detail || "";
+          } else {
+            modalContent.textContent = s.detail || "";
+          }
+          const onLoad = () => {
+            modalImg.style.transition = "opacity 150ms ease-out";
+            modalImg.style.opacity = "1";
+            modalImg.removeEventListener("load", onLoad);
+          };
+          modalImg.addEventListener("load", onLoad);
+        });
+
+        renderThumbs();
+        updateProgress();
+        preloadNeighbors(currentSlide);
+      };
+
+      const openProject = (projectIndex) => {
+        currentProject = projectIndex;
+        slides = buildSlides(projects[currentProject]);
+        currentSlide = 0;
+
+        modal.classList.remove("hidden");
+        modal.setAttribute("aria-hidden", "false");
+        lockScroll(true);
+        lastFocused = document.activeElement || null;
+        if (closeBtn) closeBtn.focus();
+
+        showSlide(0);
+      };
+
+      const closeModal = () => {
+        modal.classList.add("hidden");
+        modal.setAttribute("aria-hidden", "true");
+        lockScroll(false);
+        if (lastFocused && typeof lastFocused.focus === "function")
+          lastFocused.focus();
+      };
+
+      const next = () => showSlide(currentSlide + 1);
+      const prev = () => showSlide(currentSlide - 1);
+
+      // Openers
+      openers.forEach((el) => {
+        el.addEventListener("click", () => {
+          const raw = el.getAttribute("data-index");
+          openProject(Number(raw ?? 0));
+        });
+      });
+
+      // Controls
+      overlay.addEventListener("click", closeModal);
+      closeBtn.addEventListener("click", closeModal);
+      nextBtn.addEventListener("click", next);
+      prevBtn.addEventListener("click", prev);
+      modalImg.addEventListener("click", next);
+
+      // Keyboard (while modal open)
+      window.addEventListener("keydown", (e) => {
+        if (modal.classList.contains("hidden")) return;
+        if (e.key === "Escape") closeModal();
+        if (e.key === "ArrowRight") next();
+        if (e.key === "ArrowLeft") prev();
+      });
+
+      // Swipe
+      let startX = 0,
+        startY = 0,
+        touching = false;
+      modalImg.addEventListener(
+        "touchstart",
+        (e) => {
+          const t = e.touches[0];
+          touching = true;
+          startX = t.clientX;
+          startY = t.clientY;
+        },
+        { passive: true }
+      );
+      modalImg.addEventListener("touchend", (e) => {
+        if (!touching) return;
+        touching = false;
+        const t = e.changedTouches[0];
+        const dx = t.clientX - startX;
+        const dy = t.clientY - startY;
+        if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+          dx < 0 ? next() : prev();
+        }
+      });
+    }
   </script>
 </section>
