@@ -12,7 +12,6 @@ const navItems = [
   { href: "/Media", label: "Media" },
   { href: "/blog", label: "Blog" },
 ];
-
 ---
 
 <Layout title={pageTitle}>
@@ -51,7 +50,7 @@ const navItems = [
       {
         ads.map((ad) => (
           <figure
-            class={`group relative overflow-hidden rounded-2xl bg-[#101012] outline outline-1 outline-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.38)] ${ad.spanClass}`}
+            class={`group relative overflow-hidden rounded-2xl bg-[#101012] outline-1 outline-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.38)] ${ad.spanClass}`}
             tabindex="0"
             role="img"
             aria-label={ad.aria}
