@@ -1,9 +1,9 @@
 ---
-import Navbar from "../components/Navbar.astro";
-import Hero from "../components/Hero.astro";
-import ImageCarousel from "../components/ImageCarousel.astro";
-import Layout from "../layouts/Layout.astro";
-import HeroShowcase from "../components/HeroShowcase.astro";
+import Navbar from "../components/Navbar.astro"
+import Hero from "../components/Hero.astro"
+import ImageCarousel from "../components/ImageCarousel.astro"
+import Layout from "../layouts/Layout.astro"
+import HeroShowcase from "../components/HeroShowcase.astro"
 
 /**
  * Each item is a "project". Add optional `gallery` with extra images
@@ -11,19 +11,59 @@ import HeroShowcase from "../components/HeroShowcase.astro";
  */
 const images = [
   {
-    src: "https://res.cloudinary.com/didltutgq/image/upload/v1757006129/IMG_2630_t3xoju.jpg",
+    src: "https://res.cloudinary.com/didltutgq/image/upload/v1757213867/Raymar_Cleaned_fyurl7.jpg",
     alt: "Residential",
     detail:
-      '<h2 class="text-xl font-semibold mb-2">Dining Room - Niagara</h2><p>Full home decoration project in Niagara — blending style, comfort, and timeless design.</p>',
+      '<h2 class="text-xl font-semibold mb-2">Raymar</h2><p>Full home decoration project in Raymar — blending style, comfort, and timeless design.</p>',
     // OPTIONAL extra images for this project:
     gallery: [
       {
-        src: "https://res.cloudinary.com/didltutgq/image/upload/v1756477933/IMG_2702_blv7ge.jpg",
-        alt: "Dining Room – angle 2",
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757261610/ray_ai_enhance_jwix40.png",
+        alt: "",
       },
       {
-        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757010271/IMG_2649_fdu7mx.jpg",
-        alt: "Dining Room – detail",
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757253832/IMG_2167_jkw9rk.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757253815/IMG_4848_l1ffq4.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757253811/IMG_0010_eu5bdm.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757253782/IMG_5871_gayaze.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757253782/IMG_5871_gayaze.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757253785/FullSizeRender_2_rrr7qy.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757253774/IMG_1516_hk5lut.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757253772/IMG_1514_gbjbzb.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757253761/IMG_1156_otczw8.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757253744/IMG_1161_2_kbfo8x.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757253689/FullSizeRender_4_jgd50p.jpg",
+        alt: "",
       },
     ],
   },
@@ -33,12 +73,154 @@ const images = [
     detail:
       '<h2 class="text-xl font-semibold mb-2">Lakeside Drive - Living Room</h2><p>Full home decoration project in Lakeside — blending style, comfort, and timeless design.</p>',
     // gallery: [], // add if you have more
+    gallery: [
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757266220/IMG_0499_c7hyaw.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757266200/IMG_0258_lh3klw.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757266213/IMG_56661_ucnewm.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757266207/IMG_02651_ogtyhp.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757266193/IMG_0257_i6zd8y.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757266173/IMG_0263_wjivy8.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757266180/IMG_0260_oxzlrd.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757266159/IMG_0277_w9ptzl.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757266152/FullSizeRender_igz9h5.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757266139/IMG_0020_i7pm2p.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757266133/IMG_0021_pslscl.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757266127/IMG_0012_k4kgud.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757266120/IMG_5862_vtyz5f.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757266114/IMG_5665_k5hfng.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757266107/IMG_5649_tecilg.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757266095/IMG_5947_extoyz.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757266089/FullSizeRender1_cmgy58.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757266083/IMG_5655_wxbdwm.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757266071/IMG_5666_m5y8pe.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757271737/IMG_3420_y6zn6q_a_-90_jrpfmf.jpg",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757266060/IMG_0933_wxzbqx.jpg",
+      },
+    ],
   },
   {
     src: "https://res.cloudinary.com/didltutgq/image/upload/v1756481525/IMG_3773_v7u44f.jpg",
     alt: "Commercial",
     detail:
       '<h2 class="text-xl font-semibold mb-2">Padella Italian Eatery</h2><p>A full Italian restaurant decoration project in Toronto, thoughtfully designed to create a welcoming and stylish dining atmosphere.</p>',
+    gallery: [
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757291110/IMG_4151_fyuhcb.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757291103/IMG_4148_plgoia.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757291118/IMG_4146_hdglmf.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757291081/IMG_3574_cmubkb.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757291074/IMG_3529_mi8gxx.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757291066/IMG_3636_mngq6n.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757291059/IMG_3525_cmyhkb.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757291052/IMG_3776_xozsiw.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757291037/IMG_3791_hlosic.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757291030/IMG_3790_jdhchc.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757291024/IMG_3796_fnwacy.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757291016/IMG_3798_v1rb1g.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757291009/IMG_3681_rt68el.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757291002/IMG_4147_vlkg8d.jpg",
+        alt: "",
+      },
+    ],
   },
   {
     src: "https://res.cloudinary.com/didltutgq/image/upload/v1756483047/IMG_2844_v2vnrl.jpg",
@@ -76,15 +258,15 @@ const images = [
     detail:
       '<h2 class="text-xl font-semibold mb-2">Brant St Penthouse</h2><p>Full condo penthouse project — refined, comfortable, and timeless.</p>',
   },
-];
+]
 
 const navItems = [
   { href: "/about", label: "About" },
   { href: "/Media", label: "Media" },
   { href: "/blog", label: "Blog" },
-];
+]
 
-import logo from "../assets/logo.png";
+import logo from "../assets/logo.png"
 ---
 
 <Layout>
