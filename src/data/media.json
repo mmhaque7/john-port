@@ -1,74 +1,181 @@
 [
   {
-    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1757619654/portfolio/hero-01.jpg",
-    "aria": "Wide hero living room shot",
+    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1757691741/HeroPoster_Img_svqpay.png",
+    "aria": "",
     "aspect": "aspect-[16/10]",
     "spanClass": "col-span-12"
   },
+
   {
-    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1757619654/portfolio/kitchen-02.jpg",
-    "aria": "Sunlit modern kitchen",
+    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1757619572/IMG_3801_lzrvug.jpg",
+    "aria": "Render Prject",
     "aspect": "aspect-[16/9]",
     "spanClass": "col-span-12 md:col-span-8"
   },
   {
-    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1757619654/portfolio/chair-portrait-01.jpg",
-    "aria": "Accent chair close-up",
+    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1757617178/IMG_5891_zclmka.jpg",
+    "aria": "Sketch",
     "aspect": "aspect-[3/4]",
     "spanClass": "col-span-12 md:col-span-4"
   },
   {
-    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1757619654/portfolio/hallway-portrait-01.jpg",
-    "aria": "Minimal hallway with art",
+    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1757617441/IMG_6705_mz7nsv.jpg",
+    "aria": "Lighting",
     "aspect": "aspect-[4/5]",
     "spanClass": "col-span-12 md:col-span-3"
   },
   {
-    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1757619654/portfolio/tabletop-01.jpg",
-    "aria": "Monochrome tabletop still life",
+    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1757616822/IMG_5884_cjaykf.jpg",
+    "aria": "Sketch",
     "aspect": "aspect-square",
     "spanClass": "col-span-12 md:col-span-3"
   },
   {
-    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1757619654/portfolio/sofa-03.jpg",
-    "aria": "Sectional sofa with throw",
+    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1757618256/GPM_5983_vceu9j.jpg",
+    "aria": "Image",
     "aspect": "aspect-[3/2]",
     "spanClass": "col-span-12 md:col-span-6"
   },
   {
-    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1757619654/portfolio/stair-portrait-01.jpg",
-    "aria": "Floating stair detail",
+    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1757612705/IMG_5067_jxbtep.jpg",
+    "aria": "Living Room",
     "aspect": "aspect-[2/3]",
     "spanClass": "col-span-12 md:col-span-3"
   },
   {
-    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1757619654/portfolio/livingwide-02.jpg",
-    "aria": "Open plan living space",
+    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1757618252/GPM_5962_tlulfs.jpg",
+    "aria": "Image",
     "aspect": "aspect-[2/1]",
     "spanClass": "col-span-12 md:col-span-9"
   },
+
   {
-    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1757619654/portfolio/bed-portrait-01.jpg",
-    "aria": "Neutral bedroom palette",
+    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1757617893/IMG_3293_g4gkrv.png",
+    "aria": "Social",
     "aspect": "aspect-[3/4]",
     "spanClass": "col-span-12 md:col-span-4"
   },
   {
-    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1757619654/portfolio/dining-01.jpg",
-    "aria": "Dining table with pendant lights",
-    "aspect": "aspect-[4/3]",
+    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1757702297/IMG_7558_ox8dhq_2aef46.jpg",
+    "aria": "Magazine",
+    "aspect": "aspect-[6/10]",
     "spanClass": "col-span-12 md:col-span-4"
   },
   {
-    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1757619654/portfolio/bath-portrait-01.jpg",
-    "aria": "Marble bathroom detail",
+    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1757616822/IMG_5884_cjaykf.jpg",
+    "aria": "Sketch",
     "aspect": "aspect-[2/3]",
     "spanClass": "col-span-12 md:col-span-4"
   },
   {
-    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1757619654/portfolio/banner-01.jpg",
-    "aria": "Thin banner hallway vignette",
+    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1757606996/IMG_2109_qbkbgz.jpg",
+    "aria": "Niagra Render",
     "aspect": "aspect-[24/7]",
     "spanClass": "col-span-12"
+  },
+
+  {
+    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1757618152/IMG_5756_qjbrek.jpg",
+    "aria": "Sketch",
+    "aspect": "aspect-[16/11]",
+    "spanClass": "col-span-12 md:col-span-8"
+  },
+  {
+    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1757703692/IMG_6795_rsvbkp_a_90_a_hflip_a_vflip_xy9fpc.jpg",
+    "aria": "Kitchen portrait",
+    "aspect": "aspect-[3/4]",
+    "spanClass": "col-span-12 md:col-span-4"
+  },
+  {
+    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1757605862/FullSizeRender_1_t2k2rd.jpg",
+    "aria": "Hallway",
+    "aspect": "aspect-[6/10]",
+    "spanClass": "col-span-12 md:col-span-3"
+  },
+  {
+    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1757613338/IMG_5094_bnxw7n.jpg",
+    "aria": "Home",
+    "aspect": "aspect-[6/10]",
+    "spanClass": "col-span-12 md:col-span-3"
+  },
+  {
+    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1757618312/FullSizeRender_mlx1to.jpg",
+    "aria": "Logo Sketch ",
+    "aspect": "aspect-[3/2]",
+    "spanClass": "col-span-12 md:col-span-6"
+  },
+  {
+    "src": "https://images.unsplash.com/photo-1524758631624-1825e2ddc40d?auto=format&fit=crop&w=1000&q=80",
+    "aria": "Stair geometry",
+    "aspect": "aspect-[2/3]",
+    "spanClass": "col-span-12 md:col-span-3"
+  },
+  {
+    "src": "https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=2000&q=80",
+    "aria": "Loft panorama",
+    "aspect": "aspect-[2/1]",
+    "spanClass": "col-span-12 md:col-span-9"
+  },
+
+  {
+    "src": "https://images.unsplash.com/photo-1532372320972-5b3629d8f7b3?auto=format&fit=crop&w=1000&q=80",
+    "aria": "Reading nook",
+    "aspect": "aspect-[3/4]",
+    "spanClass": "col-span-12 md:col-span-4"
+  },
+  {
+    "src": "https://images.unsplash.com/photo-1484101403633-562f891dc89a?auto=format&fit=crop&w=1300&q=80",
+    "aria": "Dining detail 2",
+    "aspect": "aspect-[4/3]",
+    "spanClass": "col-span-12 md:col-span-4"
+  },
+  {
+    "src": "https://images.unsplash.com/photo-1465218550585-6d069382d2a9?auto=format&fit=crop&w=1000&q=80",
+    "aria": "Bath portrait 2",
+    "aspect": "aspect-[2/3]",
+    "spanClass": "col-span-12 md:col-span-4"
+  },
+  {
+    "src": "https://images.unsplash.com/photo-1523419409543-278f5d1bde2b?auto=format&fit=crop&w=2000&q=80",
+    "aria": "Wide banner 2",
+    "aspect": "aspect-[24/7]",
+    "spanClass": "col-span-12"
+  },
+
+  {
+    "src": "https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=1600&q=80",
+    "aria": "Studio overview",
+    "aspect": "aspect-[16/9]",
+    "spanClass": "col-span-12 md:col-span-8"
+  },
+  {
+    "src": "https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=1000&q=80",
+    "aria": "Notebook portrait",
+    "aspect": "aspect-[3/4]",
+    "spanClass": "col-span-12 md:col-span-4"
+  },
+  {
+    "src": "https://picsum.photos/seed/plant/900/1100",
+    "aria": "Plant corner",
+    "aspect": "aspect-[4/5]",
+    "spanClass": "col-span-12 md:col-span-3"
+  },
+  {
+    "src": "https://picsum.photos/seed/square3/1200/1200",
+    "aria": "Square pattern",
+    "aspect": "aspect-square",
+    "spanClass": "col-span-12 md:col-span-3"
+  },
+  {
+    "src": "https://images.unsplash.com/photo-1481277542470-605612bd2d61?auto=format&fit=crop&w=1400&q=80",
+    "aria": "Meeting space",
+    "aspect": "aspect-[3/2]",
+    "spanClass": "col-span-12 md:col-span-6"
+  },
+  {
+    "src": "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1000&q=80",
+    "aria": "Stair portrait 3",
+    "aspect": "aspect-[2/3]",
+    "spanClass": "col-span-12 md:col-span-3"
   }
 ]
