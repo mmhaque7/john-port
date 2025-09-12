@@ -1,15 +1,16 @@
 ---
 import Navbar from "../components/Navbar.astro";
 import Layout from "../layouts/Layout.astro";
-import ads from "../data/media.json";
-
-const pageTitle = "Media Ad Gallery — B&W → Color on Hover/Focus";
+import ads from "../data/media.json"; 
 import logo from "../assets/logo.png";
 
-// Use the first JSON item for sizing; render it as a video (not from JSON)
-const [first, ...rest] = ads;
+const pageTitle = "Media Ad Gallery — B&W → Color on Hover/Focus";
 
-// MP4 file path in /public (adjust as needed)
+// Type + split JSON items
+type AdItem = { src: string; aria?: string; aspect: string; spanClass: string };
+const [first, ...rest] = (ads as AdItem[]);
+
+// Your MP4 (in /public)
 const VIDEO_MP4 = "https://res.cloudinary.com/didltutgq/video/upload/v1757688180/final_final_reel_for_burnett_zrgcix.mp4";
 
 const navItems = [
@@ -38,153 +39,172 @@ const navItems = [
     </header>
 
     <section class="grid grid-cols-12 gap-4 md:gap-4" id="gallery" aria-label="Ad placements gallery">
-      {/* ---------- FIRST CARD: VIDEO (POSTER FROM first.src, NO GRAYSCALE) ---------- */}
-      {
-        first && (
-          <figure
-            class={`group relative overflow-hidden rounded-2xl bg-[#101012] outline-1 outline-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.38)] ${first.spanClass}`}
-            tabindex="0"
-            aria-labelledby="cap-first"
-          >
-            <div class={`${first.aspect} relative`}>
-              <video
-                id="heroVideo"
-                class="absolute inset-0 w-full h-full object-cover
-                       transition duration-200 ease-linear
-                       group-hover:scale-[1.01] group-focus-visible:scale-[1.01]"
-                preload="metadata"
-                playsinline
-                poster={first.src}   /* 👈 use the first item image as poster */
-              >
-                <source src={VIDEO_MP4} type="video/mp4" />
-              </video>
+      {first && (
+        <figure
+          class={`group relative overflow-hidden rounded-2xl bg-[#101012] outline-1 outline-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.38)] ${first.spanClass}`}
+          tabindex="0"
+          aria-labelledby="cap-first"
+        >
+          <div class={`${first.aspect} relative`}>
+            <!-- Poster fallback ON TOP initially; fades out when video is ready -->
+            <img
+              id="posterFallback"
+              src={first.src}
+              alt=""
+              aria-hidden="true"
+              class="absolute inset-0 z-10 w-full h-full object-cover select-none pointer-events-none
+                     transition-opacity duration-200 ease-linear"
+            />
 
-              {/* overlay controls (icons) */}
-              <div
-                class="absolute left-4 bottom-4 z-10 flex items-center gap-1.5
-                       rounded-2xl border border-white/10 bg-black/55 backdrop-blur
-                       px-2 py-1 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100
-                       transition-opacity"
-                role="group"
-                aria-label="Video controls"
-              >
-                <!-- Play / Pause -->
-                <button id="btnPP"
-                  class="p-2 rounded-xl hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
-                  aria-label="Play video"
-                >
-                  <svg id="iconPlay" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                       fill="currentColor" class="w-5 h-5 text-white">
-                    <path d="M8 5v14l11-7L8 5z" />
-                  </svg>
-                  <svg id="iconPause" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                       fill="currentColor" class="w-5 h-5 text-white hidden">
-                    <path d="M6 5h4v14H6zM14 5h4v14h-4z"/>
-                  </svg>
-                </button>
-
-                <!-- Mute / Unmute -->
-                <button id="btnMute"
-                  class="p-2 rounded-xl hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
-                  aria-label="Mute video"
-                >
-                  <svg id="iconVol" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                       fill="currentColor" class="w-5 h-5 text-white">
-                    <path d="M5 10v4h3l4 3V7l-4 3H5zm10.5 2a3.5 3.5 0 0 0-2.5-3.347v6.694A3.5 3.5 0 0 0 15.5 12z"/>
-                  </svg>
-                  <svg id="iconMute" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                       fill="currentColor" class="w-5 h-5 text-white hidden">
-                    <path d="M5 10v4h3l4 3V7l-4 3H5zM19 9l-1.5 1.5L16 9l-1 1 1.5 1.5L15 13l1 1 1.5-1.5L19 14l1-1-1.5-1.5L20 10l-1-1z"/>
-                  </svg>
-                </button>
-
-                <!-- Restart -->
-                <button id="btnRestart"
-                  class="p-2 rounded-xl hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
-                  aria-label="Restart video"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                       viewBox="0 0 24 24" class="w-5 h-5 text-white">
-                    <path d="M12 6V3L8 7l4 4V8a4 4 0 1 1-4 4H6a6 6 0 1 0 6-6z"/>
-                  </svg>
-                </button>
-              </div>
-            </div>
-
-            <figcaption
-              id="cap-first"
-              class="absolute inset-x-0 bottom-0 px-4 py-3
-                     bg-gradient-to-t from-black/70 to-transparent
-                     flex items-center justify-end gap-2 text-zinc-200"
+            <video
+              id="heroVideo"
+              class="absolute inset-0 w-full h-full object-cover
+                     transition-transform duration-200 ease-linear
+                     opacity-0
+                     group-hover:scale-[1.01] group-focus-visible:scale-[1.01]"
+              poster={first.src}
+              preload="metadata"
+              playsinline
+              crossorigin="anonymous"
             >
-              <span class="text-[12px] text-zinc-400">{first.size}</span>
-            </figcaption>
+              <source src={VIDEO_MP4} type="video/mp4" />
+            </video>
 
-            <span class="pointer-events-none absolute inset-0 rounded-2xl ring-0 group-focus-visible:ring-2 ring-sky-400 ring-offset-2 ring-offset-transparent" />
-          </figure>
-        )
-      }
-
-      {/* ---------- REST: IMAGES (GRAYSCALE ON HOVER) ---------- */}
-      {
-        rest.map((ad, i) => (
-          <figure
-            class={`group relative overflow-hidden rounded-2xl bg-[#101012] outline-1 outline-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.38)] ${ad.spanClass}`}
-            tabindex="0"
-            aria-labelledby={`cap-${i+1}`}
-          >
-            <div class={`${ad.aspect} relative`}>
-              <img
-                src={ad.src}
-                alt=""
-                class="absolute inset-0 w-full h-full object-cover
-                       filter grayscale contrast-110
-                       transition duration-200 ease-linear
-                       hover:grayscale-0 hover:contrast-105 hover:saturate-110
-                       group-focus-visible:grayscale-0
-                       motion-reduce:transition-none
-                       group-hover:scale-[1.02] group-focus-visible:scale-[1.02]"
-                loading="lazy"
-              />
-            </div>
-
-            <figcaption
-              id={`cap-${i+1}`}
-              class="absolute inset-x-0 bottom-0 px-4 py-3
-                     bg-gradient-to-t from-black/70 to-transparent
-                     flex items-center justify-end gap-2 text-zinc-200"
+            <!-- Clean icon controls -->
+            <div
+              class="absolute left-4 bottom-4 z-20 flex items-center gap-1.5
+                     rounded-2xl border border-white/10 bg-black/55 backdrop-blur
+                     px-2 py-1 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100
+                     transition-opacity"
+              role="group"
+              aria-label="Video controls"
             >
-              <span class="text-[12px] text-zinc-400">{ad.size}</span>
-            </figcaption>
+              <!-- Play / Pause -->
+              <button id="btnPP"
+                class="p-2 rounded-xl hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+                aria-label="Play video"
+              >
+                <svg id="iconPlay" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                     fill="currentColor" class="w-5 h-5 text-white">
+                  <path d="M8 5v14l11-7L8 5z" />
+                </svg>
+                <svg id="iconPause" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                     fill="currentColor" class="w-5 h-5 text-white hidden">
+                  <path d="M6 5h4v14H6zM14 5h4v14h-4z"/>
+                </svg>
+              </button>
 
-            <span class="pointer-events-none absolute inset-0 rounded-2xl ring-0 group-focus-visible:ring-2 ring-sky-400 ring-offset-2 ring-offset-transparent" />
-          </figure>
-        ))
-      }
+              <!-- Mute / Unmute -->
+              <button id="btnMute"
+                class="p-2 rounded-xl hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+                aria-label="Mute video"
+              >
+                <svg id="iconVol" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                     fill="currentColor" class="w-5 h-5 text-white">
+                  <path d="M5 10v4h3l4 3V7l-4 3H5zm10.5 2a3.5 3.5 0 0 0-2.5-3.347v6.694A3.5 3.5 0 0 0 15.5 12z"/>
+                </svg>
+                <svg id="iconMute" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                     fill="currentColor" class="w-5 h-5 text-white hidden">
+                  <path d="M5 10v4h3l4 3V7l-4 3H5zM19 9l-1.5 1.5L16 9l-1 1 1.5 1.5L15 13l1 1 1.5-1.5L19 14l1-1-1.5-1.5L20 10l-1-1z"/>
+                </svg>
+              </button>
+
+              <!-- Restart -->
+              <button id="btnRestart"
+                class="p-2 rounded-xl hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+                aria-label="Restart video"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                     viewBox="0 0 24 24" class="w-5 h-5 text-white">
+                  <path d="M12 6V3L8 7l4 4V8a4 4 0 1 1-4 4H6a6 6 0 1 0 6-6z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <figcaption
+            id="cap-first"
+            class="absolute inset-x-0 bottom-0 px-4 py-3
+                   bg-gradient-to-t from-black/70 to-transparent
+                   flex items-center justify-end gap-2 text-zinc-200"
+          >
+            <span class="text-[12px] text-zinc-400">{first.aria ?? "Video"}</span>
+          </figcaption>
+
+          <span class="pointer-events-none absolute inset-0 rounded-2xl ring-0 group-focus-visible:ring-2 ring-sky-400 ring-offset-2 ring-offset-transparent" />
+        </figure>
+      )}
+
+      {/* Remaining images (grayscale → color) */}
+      {rest.map((ad, i) => (
+        <figure
+          class={`group relative overflow-hidden rounded-2xl bg-[#101012] outline-1 outline-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.38)] ${ad.spanClass}`}
+          tabindex="0"
+          aria-labelledby={`cap-${i+1}`}
+        >
+          <div class={`${ad.aspect} relative`}>
+            <img
+              src={ad.src}
+              alt={ad.aria}
+              class="absolute inset-0 w-full h-full object-cover
+                     filter grayscale contrast-110
+                     transition duration-200 ease-linear
+                     hover:grayscale-0 hover:contrast-105 hover:saturate-110
+                     group-focus-visible:grayscale-0
+                     motion-reduce:transition-none
+                     group-hover:scale-[1.02] group-focus-visible:scale-[1.02]"
+              loading="lazy"
+            />
+          </div>
+
+          <figcaption
+            id={`cap-${i+1}`}
+            class="absolute inset-x-0 bottom-0 px-4 py-3
+                   bg-gradient-to-t from-black/70 to-transparent
+                   flex items-center justify-end gap-2 text-zinc-200"
+          >
+            <span class="text-[12px] text-zinc-400">{ad.aria}</span>
+          </figcaption>
+
+          <span class="pointer-events-none absolute inset-0 rounded-2xl ring-0 group-focus-visible:ring-2 ring-sky-400 ring-offset-2 ring-offset-transparent" />
+        </figure>
+      ))}
     </section>
   </main>
 
-  {/* Controls logic (TypeScript-friendly) */}
+  <!-- Controls + poster fallback logic (typed querySelector to satisfy TS) -->
   <script>
-    const v = document.getElementById('heroVideo') as HTMLVideoElement | null;
+    // Strongly typed lookups
+    const v = document.querySelector<HTMLVideoElement>('#heroVideo');
+    const posterImg = document.querySelector<HTMLImageElement>('#posterFallback');
 
-    const btnPP = document.getElementById('btnPP') as HTMLButtonElement | null;
-    const btnMute = document.getElementById('btnMute') as HTMLButtonElement | null;
-    const btnRestart = document.getElementById('btnRestart') as HTMLButtonElement | null;
+    const btnPP = document.querySelector<HTMLButtonElement>('#btnPP');
+    const btnMute = document.querySelector<HTMLButtonElement>('#btnMute');
+    const btnRestart = document.querySelector<HTMLButtonElement>('#btnRestart');
 
-    const iconPlay = document.getElementById('iconPlay') as SVGElement | null;
-    const iconPause = document.getElementById('iconPause') as SVGElement | null;
-    const iconVol = document.getElementById('iconVol') as SVGElement | null;
-    const iconMute = document.getElementById('iconMute') as SVGElement | null;
+    const iconPlay = document.querySelector<SVGSVGElement>('#iconPlay');
+    const iconPause = document.querySelector<SVGSVGElement>('#iconPause');
+    const iconVol = document.querySelector<SVGSVGElement>('#iconVol');
+    const iconMute = document.querySelector<SVGSVGElement>('#iconMute');
 
-    if (v) {
-      // Toggle play/pause
+    if (!v) {
+      console.warn('heroVideo not found');
+    } else {
+      // Reveal the video and fade out the poster once a frame is ready or playback starts
+      const revealVideo = () => {
+        v.classList.remove('opacity-0');
+        posterImg?.classList.add('opacity-0', 'pointer-events-none');
+        setTimeout(() => posterImg?.classList.add('hidden'), 220);
+      };
+      v.addEventListener('loadeddata', revealVideo);
+      v.addEventListener('play', revealVideo);
+
+      // Play/Pause toggle
       btnPP?.addEventListener('click', () => {
-        if (v.paused) v.play();
-        else v.pause();
+        v.paused ? v.play() : v.pause();
       });
 
-      // Reflect playing state in icon/label
+      // Reflect playing state in icons/label
       const updatePP = () => {
         const playing = !v.paused && !v.ended;
         iconPlay?.classList.toggle('hidden', playing);
@@ -209,12 +229,22 @@ const navItems = [
       setMuteIcon();
 
       // Restart
-      btnRestart?.addEventListener('click', () => { v.currentTime = 0; v.play(); });
+      btnRestart?.addEventListener('click', () => {
+        v.currentTime = 0;
+        v.play();
+      });
 
-      // Keyboard support: Space/Enter toggle, M to mute
-      v.closest('figure')?.addEventListener('keydown', (e: KeyboardEvent) => {
-        if (['Space','Enter'].includes(e.code)) { e.preventDefault(); v.paused ? v.play() : v.pause(); }
-        if (e.key.toLowerCase() === 'm') { v.muted = !v.muted; setMuteIcon(); }
+      // Keyboard: Space/Enter to toggle, M to mute
+      v.closest('figure')?.addEventListener('keydown', (e) => {
+        if (e.code === 'Space' || e.code === 'Enter') {
+          e.preventDefault();
+          v.paused ? v.play() : v.pause();
+        }
+        const key = (e.key ?? '').toLowerCase();
+        if (key === 'm') {
+          v.muted = !v.muted;
+          setMuteIcon();
+        }
       });
     }
   </script>
