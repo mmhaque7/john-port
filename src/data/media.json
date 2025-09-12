@@ -1,44 +1,74 @@
 [
   {
-    "size": "970×250",
-    "src": "https://images.unsplash.com/photo-1549880338-65ddcdfd017b?q=80&w=1600&auto=format&fit=crop",
-    "aria": "Leaderboard, 970 by 250",
-    "spanClass": "col-span-12",
-    "aspect": "aspect-[16/9]"
+    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1757619654/portfolio/hero-01.jpg",
+    "aria": "Wide hero living room shot",
+    "aspect": "aspect-[16/10]",
+    "spanClass": "col-span-12"
   },
   {
-    "size": "970×250",
-    "src": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1600&auto=format&fit=crop",
-    "aria": "Billboard, 970 by 250",
-    "spanClass": "col-span-12 md:col-span-8",
-    "aspect": "aspect-[16/9]"
+    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1757619654/portfolio/kitchen-02.jpg",
+    "aria": "Sunlit modern kitchen",
+    "aspect": "aspect-[16/9]",
+    "spanClass": "col-span-12 md:col-span-8"
   },
   {
-    "size": "300×250",
-    "src": "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1200&auto=format&fit=crop",
-    "aria": "MPU, 300 by 250",
-    "spanClass": "col-span-12 md:col-span-4",
-    "aspect": "aspect-square"
+    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1757619654/portfolio/chair-portrait-01.jpg",
+    "aria": "Accent chair close-up",
+    "aspect": "aspect-[3/4]",
+    "spanClass": "col-span-12 md:col-span-4"
   },
   {
-    "size": "160×600",
-    "src": "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=1000&auto=format&fit=crop",
-    "aria": "Skyscraper, 160 by 600",
-    "spanClass": "col-span-12 md:col-span-3",
-    "aspect": "aspect-[4/5]"
+    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1757619654/portfolio/hallway-portrait-01.jpg",
+    "aria": "Minimal hallway with art",
+    "aspect": "aspect-[4/5]",
+    "spanClass": "col-span-12 md:col-span-3"
   },
   {
-    "size": "300×600",
-    "src": "https://images.unsplash.com/photo-1520975922215-230f72c2c5b7?q=80&w=1600&auto=format&fit=crop",
-    "aria": "Half Page, 300 by 600",
-    "spanClass": "col-span-12 md:col-span-6",
-    "aspect": "aspect-[16/9]"
+    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1757619654/portfolio/tabletop-01.jpg",
+    "aria": "Monochrome tabletop still life",
+    "aspect": "aspect-square",
+    "spanClass": "col-span-12 md:col-span-3"
   },
   {
-    "size": "320×50",
-    "src": "https://images.unsplash.com/photo-1482192505345-5655af888cc4?q=80&w=1600&auto=format&fit=crop",
-    "aria": "Mobile Banner, 320 by 50",
-    "spanClass": "col-span-12 md:col-span-6",
-    "aspect": "aspect-[16/9]"
+    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1757619654/portfolio/sofa-03.jpg",
+    "aria": "Sectional sofa with throw",
+    "aspect": "aspect-[3/2]",
+    "spanClass": "col-span-12 md:col-span-6"
+  },
+  {
+    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1757619654/portfolio/stair-portrait-01.jpg",
+    "aria": "Floating stair detail",
+    "aspect": "aspect-[2/3]",
+    "spanClass": "col-span-12 md:col-span-3"
+  },
+  {
+    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1757619654/portfolio/livingwide-02.jpg",
+    "aria": "Open plan living space",
+    "aspect": "aspect-[2/1]",
+    "spanClass": "col-span-12 md:col-span-9"
+  },
+  {
+    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1757619654/portfolio/bed-portrait-01.jpg",
+    "aria": "Neutral bedroom palette",
+    "aspect": "aspect-[3/4]",
+    "spanClass": "col-span-12 md:col-span-4"
+  },
+  {
+    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1757619654/portfolio/dining-01.jpg",
+    "aria": "Dining table with pendant lights",
+    "aspect": "aspect-[4/3]",
+    "spanClass": "col-span-12 md:col-span-4"
+  },
+  {
+    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1757619654/portfolio/bath-portrait-01.jpg",
+    "aria": "Marble bathroom detail",
+    "aspect": "aspect-[2/3]",
+    "spanClass": "col-span-12 md:col-span-4"
+  },
+  {
+    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1757619654/portfolio/banner-01.jpg",
+    "aria": "Thin banner hallway vignette",
+    "aspect": "aspect-[24/7]",
+    "spanClass": "col-span-12"
   }
 ]
