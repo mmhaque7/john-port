@@ -1,11 +1,16 @@
 ---
 import Navbar from "../components/Navbar.astro";
 import Layout from "../layouts/Layout.astro";
-import ads from "../data/media.json"; // import JSON
+import ads from "../data/media.json";
 
 const pageTitle = "Media Ad Gallery — B&W → Color on Hover/Focus";
-
 import logo from "../assets/logo.png";
+
+// Use the first JSON item for sizing; render it as a video (not from JSON)
+const [first, ...rest] = ads;
+
+// MP4 file path in /public (adjust as needed)
+const VIDEO_MP4 = "https://res.cloudinary.com/didltutgq/video/upload/v1757688180/final_final_reel_for_burnett_zrgcix.mp4";
 
 const navItems = [
   { href: "/about", label: "About" },
@@ -17,24 +22,14 @@ const navItems = [
 <Layout title={pageTitle}>
   <Navbar
     items={navItems}
-    brand={{
-      name: "MySite",
-      href: "/",
-      logoSrc: logo.src,
-      alt: "MySite logo",
-    }}
+    brand={{ name: "MySite", href: "/", logoSrc: logo.src, alt: "MySite logo" }}
     cta={{ label: "Contact", href: "/Contact" }}
     currentPath={Astro.url.pathname}
   />
 
-  <main
-    class="max-w-[1200px] mx-auto px-5 md:px-6 py-12 md:py-16 text-zinc-100"
-  >
+  <main class="max-w-[1200px] mx-auto px-5 md:px-6 py-12 md:py-16 text-zinc-100">
     <header class="mb-7">
-      <h1
-        id="pageTitle"
-        class="font-extrabold text-[28px] md:text-[44px] leading-none"
-      >
+      <h1 id="pageTitle" class="font-extrabold text-[28px] md:text-[44px] leading-none">
         Media Gallery
       </h1>
       <p class="text-zinc-400 max-w-prose leading-relaxed">
@@ -42,48 +37,185 @@ const navItems = [
       </p>
     </header>
 
-    <section
-      class="grid grid-cols-12 gap-4 md:gap-4"
-      id="gallery"
-      aria-label="Ad placements gallery"
-    >
+    <section class="grid grid-cols-12 gap-4 md:gap-4" id="gallery" aria-label="Ad placements gallery">
+      {/* ---------- FIRST CARD: VIDEO (POSTER FROM first.src, NO GRAYSCALE) ---------- */}
       {
-        ads.map((ad) => (
+        first && (
+          <figure
+            class={`group relative overflow-hidden rounded-2xl bg-[#101012] outline-1 outline-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.38)] ${first.spanClass}`}
+            tabindex="0"
+            aria-labelledby="cap-first"
+          >
+            <div class={`${first.aspect} relative`}>
+              <video
+                id="heroVideo"
+                class="absolute inset-0 w-full h-full object-cover
+                       transition duration-200 ease-linear
+                       group-hover:scale-[1.01] group-focus-visible:scale-[1.01]"
+                preload="metadata"
+                playsinline
+                poster={first.src}   /* 👈 use the first item image as poster */
+              >
+                <source src={VIDEO_MP4} type="video/mp4" />
+              </video>
+
+              {/* overlay controls (icons) */}
+              <div
+                class="absolute left-4 bottom-4 z-10 flex items-center gap-1.5
+                       rounded-2xl border border-white/10 bg-black/55 backdrop-blur
+                       px-2 py-1 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100
+                       transition-opacity"
+                role="group"
+                aria-label="Video controls"
+              >
+                <!-- Play / Pause -->
+                <button id="btnPP"
+                  class="p-2 rounded-xl hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+                  aria-label="Play video"
+                >
+                  <svg id="iconPlay" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                       fill="currentColor" class="w-5 h-5 text-white">
+                    <path d="M8 5v14l11-7L8 5z" />
+                  </svg>
+                  <svg id="iconPause" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                       fill="currentColor" class="w-5 h-5 text-white hidden">
+                    <path d="M6 5h4v14H6zM14 5h4v14h-4z"/>
+                  </svg>
+                </button>
+
+                <!-- Mute / Unmute -->
+                <button id="btnMute"
+                  class="p-2 rounded-xl hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+                  aria-label="Mute video"
+                >
+                  <svg id="iconVol" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                       fill="currentColor" class="w-5 h-5 text-white">
+                    <path d="M5 10v4h3l4 3V7l-4 3H5zm10.5 2a3.5 3.5 0 0 0-2.5-3.347v6.694A3.5 3.5 0 0 0 15.5 12z"/>
+                  </svg>
+                  <svg id="iconMute" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                       fill="currentColor" class="w-5 h-5 text-white hidden">
+                    <path d="M5 10v4h3l4 3V7l-4 3H5zM19 9l-1.5 1.5L16 9l-1 1 1.5 1.5L15 13l1 1 1.5-1.5L19 14l1-1-1.5-1.5L20 10l-1-1z"/>
+                  </svg>
+                </button>
+
+                <!-- Restart -->
+                <button id="btnRestart"
+                  class="p-2 rounded-xl hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+                  aria-label="Restart video"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                       viewBox="0 0 24 24" class="w-5 h-5 text-white">
+                    <path d="M12 6V3L8 7l4 4V8a4 4 0 1 1-4 4H6a6 6 0 1 0 6-6z"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <figcaption
+              id="cap-first"
+              class="absolute inset-x-0 bottom-0 px-4 py-3
+                     bg-gradient-to-t from-black/70 to-transparent
+                     flex items-center justify-end gap-2 text-zinc-200"
+            >
+              <span class="text-[12px] text-zinc-400">{first.size}</span>
+            </figcaption>
+
+            <span class="pointer-events-none absolute inset-0 rounded-2xl ring-0 group-focus-visible:ring-2 ring-sky-400 ring-offset-2 ring-offset-transparent" />
+          </figure>
+        )
+      }
+
+      {/* ---------- REST: IMAGES (GRAYSCALE ON HOVER) ---------- */}
+      {
+        rest.map((ad, i) => (
           <figure
             class={`group relative overflow-hidden rounded-2xl bg-[#101012] outline-1 outline-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.38)] ${ad.spanClass}`}
             tabindex="0"
-            role="img"
-            aria-label={ad.aria}
+            aria-labelledby={`cap-${i+1}`}
           >
             <div class={`${ad.aspect} relative`}>
               <img
                 src={ad.src}
                 alt=""
                 class="absolute inset-0 w-full h-full object-cover
-                     filter grayscale contrast-110
-                     transition duration-200 ease-linear
-                     hover:grayscale-0 hover:contrast-105 hover:saturate-110
-                     group-focus-visible:grayscale-0
-                     motion-reduce:transition-none
-                     group-hover:scale-[1.02] group-focus-visible:scale-[1.02]"
+                       filter grayscale contrast-110
+                       transition duration-200 ease-linear
+                       hover:grayscale-0 hover:contrast-105 hover:saturate-110
+                       group-focus-visible:grayscale-0
+                       motion-reduce:transition-none
+                       group-hover:scale-[1.02] group-focus-visible:scale-[1.02]"
+                loading="lazy"
               />
             </div>
 
             <figcaption
+              id={`cap-${i+1}`}
               class="absolute inset-x-0 bottom-0 px-4 py-3
-                   bg-gradient-to-t from-black/70 to-transparent
-                   flex items-center justify-end gap-2 text-zinc-200"
+                     bg-gradient-to-t from-black/70 to-transparent
+                     flex items-center justify-end gap-2 text-zinc-200"
             >
               <span class="text-[12px] text-zinc-400">{ad.size}</span>
             </figcaption>
 
-            <span
-              class="pointer-events-none absolute inset-0 rounded-2xl
-                   ring-0 group-focus-visible:ring-2 ring-sky-400 ring-offset-2 ring-offset-transparent"
-            />
+            <span class="pointer-events-none absolute inset-0 rounded-2xl ring-0 group-focus-visible:ring-2 ring-sky-400 ring-offset-2 ring-offset-transparent" />
           </figure>
         ))
       }
     </section>
   </main>
+
+  {/* Controls logic (TypeScript-friendly) */}
+  <script>
+    const v = document.getElementById('heroVideo') as HTMLVideoElement | null;
+
+    const btnPP = document.getElementById('btnPP') as HTMLButtonElement | null;
+    const btnMute = document.getElementById('btnMute') as HTMLButtonElement | null;
+    const btnRestart = document.getElementById('btnRestart') as HTMLButtonElement | null;
+
+    const iconPlay = document.getElementById('iconPlay') as SVGElement | null;
+    const iconPause = document.getElementById('iconPause') as SVGElement | null;
+    const iconVol = document.getElementById('iconVol') as SVGElement | null;
+    const iconMute = document.getElementById('iconMute') as SVGElement | null;
+
+    if (v) {
+      // Toggle play/pause
+      btnPP?.addEventListener('click', () => {
+        if (v.paused) v.play();
+        else v.pause();
+      });
+
+      // Reflect playing state in icon/label
+      const updatePP = () => {
+        const playing = !v.paused && !v.ended;
+        iconPlay?.classList.toggle('hidden', playing);
+        iconPause?.classList.toggle('hidden', !playing);
+        btnPP?.setAttribute('aria-label', playing ? 'Pause video' : 'Play video');
+      };
+      v.addEventListener('play', updatePP);
+      v.addEventListener('pause', updatePP);
+      v.addEventListener('ended', updatePP);
+
+      // Mute toggle
+      const setMuteIcon = () => {
+        const muted = v.muted || v.volume === 0;
+        iconVol?.classList.toggle('hidden', muted);
+        iconMute?.classList.toggle('hidden', !muted);
+        btnMute?.setAttribute('aria-label', muted ? 'Unmute video' : 'Mute video');
+      };
+      btnMute?.addEventListener('click', () => {
+        v.muted = !v.muted;
+        setMuteIcon();
+      });
+      setMuteIcon();
+
+      // Restart
+      btnRestart?.addEventListener('click', () => { v.currentTime = 0; v.play(); });
+
+      // Keyboard support: Space/Enter toggle, M to mute
+      v.closest('figure')?.addEventListener('keydown', (e: KeyboardEvent) => {
+        if (['Space','Enter'].includes(e.code)) { e.preventDefault(); v.paused ? v.play() : v.pause(); }
+        if (e.key.toLowerCase() === 'm') { v.muted = !v.muted; setMuteIcon(); }
+      });
+    }
+  </script>
 </Layout>
