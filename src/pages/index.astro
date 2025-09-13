@@ -1,9 +1,9 @@
 ---
-import Navbar from "../components/Navbar.astro";
-import Hero from "../components/Hero.astro";
-import ImageCarousel from "../components/ImageCarousel.astro";
-import Layout from "../layouts/Layout.astro";
-import HeroShowcase from "../components/HeroShowcase.astro";
+import Navbar from "../components/Navbar.astro"
+import Hero from "../components/Hero.astro"
+import ImageCarousel from "../components/ImageCarousel.astro"
+import Layout from "../layouts/Layout.astro"
+import HeroShowcase from "../components/HeroShowcase.astro"
 
 /**
  * Each item is a "project". Add optional `gallery` with extra images
@@ -622,15 +622,52 @@ const images = [
       },
     ],
   },
-];
+  {
+    src: "https://res.cloudinary.com/didltutgq/image/upload/v1757782298/IMG_0138_fidbex.jpg",
+    alt: "Residential",
+    detail:
+      '<h2 class="text-xl font-semibold mb-2">Thompson</h2><p> — refined, comfortable, and timeless.</p>',
+    gallery: [
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757781909/IMG_0195_pknkhj.jpg",
+        alt: "",
+      },
+
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757781908/IMG_0201_rk71ct.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757781905/IMG_0209_sve62k.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757781903/IMG_0207_p3m9ei.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757781902/IMG_0205_ju0b1o.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757781900/IMG_0204_bcacwh.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1757781899/IMG_0203_ada89f.jpg",
+        alt: "",
+      },
+    ],
+  },
+]
 
 const navItems = [
   { href: "/about", label: "About" },
   { href: "/Media", label: "Media" },
   { href: "/blog", label: "Blog" },
-];
+]
 
-import logo from "../assets/logo.png";
+import logo from "../assets/logo.png"
 ---
 
 <Layout>
@@ -651,7 +688,7 @@ import logo from "../assets/logo.png";
     subtitle="For over two decades, I’ve been crafting interiors that balance sophistication, comfort, and individuality—delivering spaces that leave a lasting impression."
     ctaText="Book a Consultation"
     ctaLink="/contact"
-    imageUrl="https://res.cloudinary.com/didltutgq/image/upload/v1757095341/FullSizeRender_dqgmzt.jpg"
+    imageUrl="https://res.cloudinary.com/didltutgq/image/upload/v1757213867/Raymar_Cleaned_fyurl7.jpg"
   />
 
   <HeroShowcase
