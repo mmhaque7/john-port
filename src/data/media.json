@@ -13,7 +13,7 @@
     "spanClass": "col-span-12 md:col-span-8"
   },
   {
-    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1757617178/IMG_5891_zclmka.jpg",
+    "src": "",
     "aria": "3",
     "aspect": "aspect-[3/4]",
     "spanClass": "col-span-12 md:col-span-4"
@@ -56,7 +56,7 @@
     "spanClass": "col-span-12 md:col-span-4"
   },
   {
-    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1757702297/IMG_7558_ox8dhq_2aef46.jpg",
+    "src": "",
     "aria": "10",
     "aspect": "aspect-[6/10]",
     "spanClass": "col-span-12 md:col-span-4"
@@ -171,5 +171,5 @@
     "aria": "29",
     "aspect": "aspect-[4/2.92]",
     "spanClass": "col-span-12 md:col-span-6"
-  }]
-
+  }
+]
