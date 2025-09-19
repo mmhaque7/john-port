@@ -1,0 +1,39 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ContactForm from "../components/contact-form.astro";
+import ContactCard from "../components/ContactCard.astro";
+---
+
+<Layout>
+  <main class="bg-black text-white">
+    <section class="mx-auto max-w-5xl px-4 py-16">
+      <header class="mb-10 text-center">
+        <h1 class="text-3xl font-semibold tracking-tight">
+          Get in touch with me
+        </h1>
+        <p class="mt-2 text-xl text-gray-300"></p>
+      </header>
+
+      <div class="grid gap-8 md:grid-cols-5">
+        <div class="md:col-span-2">
+          <ContactCard
+            title="Contact Information"
+            name="Ada Lovelace"
+            email="ada@lovelace.dev"
+            phone="+44 20 1234 5678"
+            address="42 Computing Lane, London, UK"
+            website="https://adalovelace.dev"
+            socials={[
+              { label: "Twitter", href: "https://twitter.com/ada" },
+              { label: "GitHub", href: "https://github.com/ada" },
+            ]}
+          />
+        </div>
+
+        <div class="md:col-span-3">
+          <ContactForm />
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>

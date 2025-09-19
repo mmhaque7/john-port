@@ -1,31 +1,13 @@
 ---
 // src/pages/about.astro — Interior Designer "About" page
-import Navbar from "../components/Navbar.astro";
 import Layout from "../layouts/Layout.astro";
 
 const pageTitle = "About — Johnathan Furlong";
-
-const navItems = [
-  { href: "/about", label: "About" },
-  { href: "/Media", label: "Media" },
-  { href: "/blog", label: "Blog" },
-];
-import logo from "../assets/logo.png";
 ---
 
 <Layout title={pageTitle}>
   <!-- HERO / ARTIST STATEMENT -->
-  <Navbar
-    items={navItems}
-    brand={{
-      name: "MySite",
-      href: "/",
-      logoSrc: logo.src,
-      alt: "MySite logo",
-    }}
-    cta={{ label: "Contact", href: "/Contact" }}
-    currentPath={Astro.url.pathname}
-  />
+
   <section class="relative overflow-hidden">
     <!-- soft glows -->
     <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10">

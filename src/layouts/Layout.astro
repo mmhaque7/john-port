@@ -1,14 +1,30 @@
 ---
 import "../styles/global.css";
 import Navbar from "../components/Navbar.astro";
+import logo from "../assets/logo.png"; // you can change this
 
 export interface Props {
   title?: string;
+  currentPath?: string;
 }
 
-const { title = "Johnathan Furlong" } = Astro.props;
+const { title = "Johnathan Furlong", currentPath } = Astro.props;
 
+// Define your nav items here once
+const navItems = [
+  { href: "/about", label: "About" },
+  { href: "/media", label: "Gallery" },
+  { href: "/blog", label: "Blog" },
+];
 
+// Define brand + CTA here once
+const brand = {
+  name: "MySite",
+  href: "/",
+  logoSrc: logo.src,
+  alt: "MySite logo",
+};
+const cta = { label: "Contact", href: "/contact" };
 ---
 
 <!doctype html>
@@ -20,18 +36,16 @@ const { title = "Johnathan Furlong" } = Astro.props;
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
-  <body>
+  <body class="bg-black text-white antialiased">
+    <Navbar
+      items={navItems}
+      brand={brand}
+      cta={cta}
+      currentPath={currentPath}
+    />
 
-    <slot />
+    <main>
+      <slot />
+    </main>
   </body>
 </html>
-
-<style>
-  html,
-  body {
-    margin: 0;
-    width: 100%;
-    height: 100%;
-    background-color: black;
-  }
-</style>
