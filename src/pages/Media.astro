@@ -1,32 +1,17 @@
 ---
-import Navbar from "../components/Navbar.astro"
-import Layout from "../layouts/Layout.astro"
-import ads from "../data/media.json"
-import logo from "../assets/logo.png"
+import Layout from "../layouts/Layout.astro";
+import ads from "../data/media.json";
 
-const pageTitle = "Media Ad Gallery — Color Images"
+const pageTitle = "Gallery — Glimpse of my work";
 
-type AdItem = { src: string; aria?: string; aspect: string; spanClass: string }
-const [first, ...rest] = ads as AdItem[]
+type AdItem = { src: string; aria?: string; aspect: string; spanClass: string };
+const [first, ...rest] = ads as AdItem[];
 
 const VIDEO_MP4 =
-  "https://res.cloudinary.com/didltutgq/video/upload/v1757688180/final_final_reel_for_burnett_zrgcix.mp4"
-
-const navItems = [
-  { href: "/about", label: "About" },
-  { href: "/Media", label: "Media" },
-  { href: "/blog", label: "Blog" },
-]
+  "https://res.cloudinary.com/didltutgq/video/upload/v1757688180/final_final_reel_for_burnett_zrgcix.mp4";
 ---
 
 <Layout title={pageTitle}>
-  <Navbar
-    items={navItems}
-    brand={{ name: "MySite", href: "/", logoSrc: logo.src, alt: "MySite logo" }}
-    cta={{ label: "Contact", href: "/Contact" }}
-    currentPath={Astro.url.pathname}
-  />
-
   <main
     class="max-w-[1200px] mx-auto px-5 md:px-6 py-12 md:py-16 text-zinc-100"
   >
@@ -208,78 +193,78 @@ const navItems = [
   </main>
 
   <script>
-    const v = document.querySelector<HTMLVideoElement>("#heroVideo")
+    const v = document.querySelector<HTMLVideoElement>("#heroVideo");
     const posterImg =
-      document.querySelector<HTMLImageElement>("#posterFallback")
+      document.querySelector<HTMLImageElement>("#posterFallback");
 
-    const btnPP = document.querySelector<HTMLButtonElement>("#btnPP")
-    const btnMute = document.querySelector<HTMLButtonElement>("#btnMute")
-    const btnRestart = document.querySelector<HTMLButtonElement>("#btnRestart")
+    const btnPP = document.querySelector<HTMLButtonElement>("#btnPP");
+    const btnMute = document.querySelector<HTMLButtonElement>("#btnMute");
+    const btnRestart = document.querySelector<HTMLButtonElement>("#btnRestart");
 
-    const iconPlay = document.querySelector<SVGSVGElement>("#iconPlay")
-    const iconPause = document.querySelector<SVGSVGElement>("#iconPause")
-    const iconVol = document.querySelector<SVGSVGElement>("#iconVol")
-    const iconMute = document.querySelector<SVGSVGElement>("#iconMute")
+    const iconPlay = document.querySelector<SVGSVGElement>("#iconPlay");
+    const iconPause = document.querySelector<SVGSVGElement>("#iconPause");
+    const iconVol = document.querySelector<SVGSVGElement>("#iconVol");
+    const iconMute = document.querySelector<SVGSVGElement>("#iconMute");
 
     if (!v) {
-      console.warn("heroVideo not found")
+      console.warn("heroVideo not found");
     } else {
       const revealVideo = () => {
-        v.classList.remove("opacity-0")
-        posterImg?.classList.add("opacity-0", "pointer-events-none")
-        setTimeout(() => posterImg?.classList.add("hidden"), 220)
-      }
-      v.addEventListener("loadeddata", revealVideo)
-      v.addEventListener("play", revealVideo)
+        v.classList.remove("opacity-0");
+        posterImg?.classList.add("opacity-0", "pointer-events-none");
+        setTimeout(() => posterImg?.classList.add("hidden"), 220);
+      };
+      v.addEventListener("loadeddata", revealVideo);
+      v.addEventListener("play", revealVideo);
 
       btnPP?.addEventListener("click", () => {
-        v.paused ? v.play() : v.pause()
-      })
+        v.paused ? v.play() : v.pause();
+      });
 
       const updatePP = () => {
-        const playing = !v.paused && !v.ended
-        iconPlay?.classList.toggle("hidden", playing)
-        iconPause?.classList.toggle("hidden", !playing)
+        const playing = !v.paused && !v.ended;
+        iconPlay?.classList.toggle("hidden", playing);
+        iconPause?.classList.toggle("hidden", !playing);
         btnPP?.setAttribute(
           "aria-label",
           playing ? "Pause video" : "Play video"
-        )
-      }
-      v.addEventListener("play", updatePP)
-      v.addEventListener("pause", updatePP)
-      v.addEventListener("ended", updatePP)
+        );
+      };
+      v.addEventListener("play", updatePP);
+      v.addEventListener("pause", updatePP);
+      v.addEventListener("ended", updatePP);
 
       const setMuteIcon = () => {
-        const muted = v.muted || v.volume === 0
-        iconVol?.classList.toggle("hidden", muted)
-        iconMute?.classList.toggle("hidden", !muted)
+        const muted = v.muted || v.volume === 0;
+        iconVol?.classList.toggle("hidden", muted);
+        iconMute?.classList.toggle("hidden", !muted);
         btnMute?.setAttribute(
           "aria-label",
           muted ? "Unmute video" : "Mute video"
-        )
-      }
+        );
+      };
       btnMute?.addEventListener("click", () => {
-        v.muted = !v.muted
-        setMuteIcon()
-      })
-      setMuteIcon()
+        v.muted = !v.muted;
+        setMuteIcon();
+      });
+      setMuteIcon();
 
       btnRestart?.addEventListener("click", () => {
-        v.currentTime = 0
-        v.play()
-      })
+        v.currentTime = 0;
+        v.play();
+      });
 
       v.closest("figure")?.addEventListener("keydown", (e) => {
         if (e.code === "Space" || e.code === "Enter") {
-          e.preventDefault()
-          v.paused ? v.play() : v.pause()
+          e.preventDefault();
+          v.paused ? v.play() : v.pause();
         }
-        const key = (e.key ?? "").toLowerCase()
+        const key = (e.key ?? "").toLowerCase();
         if (key === "m") {
-          v.muted = !v.muted
-          setMuteIcon()
+          v.muted = !v.muted;
+          setMuteIcon();
         }
-      })
+      });
     }
   </script>
 </Layout>

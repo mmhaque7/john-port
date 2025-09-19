@@ -1,9 +1,9 @@
 ---
-import Navbar from "../components/Navbar.astro";
 import Hero from "../components/Hero.astro";
 import ImageCarousel from "../components/ImageCarousel.astro";
 import Layout from "../layouts/Layout.astro";
 import HeroShowcase from "../components/HeroShowcase.astro";
+
 
 /**
  * Each item is a "project". Add optional `gallery` with extra images
@@ -841,31 +841,19 @@ const images = [
         src: "https://res.cloudinary.com/didltutgq/image/upload/v1758212141/IMG_0146_me1wh5.jpg",
         alt: "",
       },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1758292260/IMG_0099_tvwiva.jpg",
+        alt: "",
+      },
     ],
   },
 ];
 
-const navItems = [
-  { href: "/about", label: "About" },
-  { href: "/Media", label: "Media" },
-  { href: "/blog", label: "Blog" },
-];
 
-import logo from "../assets/logo.png";
 ---
 
 <Layout>
-  <Navbar
-    items={navItems}
-    brand={{
-      name: "MySite",
-      href: "/",
-      logoSrc: logo.src,
-      alt: "MySite logo",
-    }}
-    cta={{ label: "Contact", href: "/Contact" }}
-    currentPath={Astro.url.pathname}
-  />
+
 
   <Hero
     title="Where Vision Meets Elegance"

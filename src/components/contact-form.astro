@@ -1,5 +1,5 @@
 ---
-const ACCESS_KEY = "3123ce61-85c1-4f6e-9926-a2a4bc346639" // your Web3Forms public access key
+const ACCESS_KEY = "3123ce61-85c1-4f6e-9926-a2a4bc346639"; // your Web3Forms public access key
 ---
 
 <section
@@ -12,11 +12,7 @@ const ACCESS_KEY = "3123ce61-85c1-4f6e-9926-a2a4bc346639" // your Web3Forms publ
     </p>
   </header>
 
-  <form
-    action="https://api.web3forms.com/submit"
-    method="POST"
-    class="space-y-5"
-  >
+  <form id="contact-form" class="space-y-5">
     <!-- Required by Web3Forms -->
     <input type="hidden" name="access_key" value={ACCESS_KEY} />
     <input
@@ -35,7 +31,6 @@ const ACCESS_KEY = "3123ce61-85c1-4f6e-9926-a2a4bc346639" // your Web3Forms publ
           name="name"
           type="text"
           required
-          minlength="2"
           class="w-full rounded-xl border border-gray-300 px-3 py-2 text-gray-900 outline-none focus:border-gray-400 focus:ring-2 focus:ring-gray-200"
           placeholder="Ada Lovelace"
         />
@@ -72,7 +67,7 @@ const ACCESS_KEY = "3123ce61-85c1-4f6e-9926-a2a4bc346639" // your Web3Forms publ
         id="message"
         name="message"
         required
-        rows={5}
+        rows="5"
         class="w-full rounded-xl border border-gray-300 px-3 py-2 text-gray-900 outline-none focus:border-gray-400 focus:ring-2 focus:ring-gray-200"
         placeholder="Write your message here..."></textarea>
     </div>
@@ -90,10 +85,74 @@ const ACCESS_KEY = "3123ce61-85c1-4f6e-9926-a2a4bc346639" // your Web3Forms publ
 
       <button
         type="submit"
-        class="inline-flex items-center justify-center rounded-xl bg-gray-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-black focus:outline-none focus:ring-2 focus:ring-gray-300"
+        class="inline-flex items-center justify-center rounded-xl bg-gray-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-black focus:outline-none focus:ring-2 focus:ring-gray-300 disabled:opacity-50"
       >
         Send message
       </button>
     </div>
   </form>
 </section>
+
+<!-- Thank You Modal -->
+<div
+  id="thankyou-modal"
+  class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50"
+>
+  <div class="w-full max-w-md rounded-2xl bg-white p-6 shadow-lg text-center">
+    <h3 class="text-xl font-semibold">Thank you!</h3>
+    <p class="mt-2 text-gray-600">
+      Your message has been sent successfully. We'll get back to you soon.
+    </p>
+    <button
+      id="close-modal"
+      class="mt-4 rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-black focus:outline-none focus:ring-2 focus:ring-gray-300"
+    >
+      Close
+    </button>
+  </div>
+</div>
+
+<script is:inline>
+  const form = document.getElementById("contact-form");
+  const modal = document.getElementById("thankyou-modal");
+  const closeBtn = document.getElementById("close-modal");
+  let autoCloseTimer;
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(form);
+
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData,
+        headers: { Accept: "application/json" },
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        form.reset();
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+
+        // Auto close after 4 seconds
+        autoCloseTimer = setTimeout(() => {
+          modal.classList.add("hidden");
+          modal.classList.remove("flex");
+        }, 4000);
+      } else {
+        alert(data.message || "Something went wrong. Please try again.");
+      }
+    } catch (err) {
+      alert("Network error. Please try again.");
+    }
+  });
+
+  closeBtn.addEventListener("click", () => {
+    modal.classList.add("hidden");
+    modal.classList.remove("flex");
+    clearTimeout(autoCloseTimer);
+  });
+</script>
