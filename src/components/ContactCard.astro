@@ -4,9 +4,9 @@ interface Props {
   name?: string;
   email?: string;
   phone?: string;
- 
   website?: string;
   socials?: { label: string; href: string }[];
+  image?: string;
 }
 
 const {
@@ -14,21 +14,31 @@ const {
   name = "John Doe",
   email = "john@example.com",
   phone = "+1 (555) 123-4567",
- 
   website = "https://example.com",
   socials = [
     { label: "Twitter", href: "https://twitter.com/" },
     { label: "LinkedIn", href: "https://linkedin.com/" },
   ],
+  image = "https://via.placeholder.com/150", // placeholder headshot
 } = Astro.props;
 ---
 
 <div
   class="mx-auto max-w-md rounded-2xl border border-gray-200 bg-white p-6 shadow-md"
 >
-  <h2 class="mb-4 text-2xl font-semibold text-gray-900">{title}</h2>
+  <!-- Headshot -->
+  <div class="flex justify-center mb-4">
+    <img
+      src={image}
+      alt={`${name} headshot`}
+      class="h-28 w-28 rounded-full object-cover shadow-md"
+      loading="lazy"
+    />
+  </div>
 
-  <div class="space-y-3 text-gray-700">
+  <h2 class="mb-4 text-2xl font-semibold text-gray-900 text-center">{title}</h2>
+
+  <div class="space-y-3 text-gray-700 text-center">
     <p class="text-lg font-medium">{name}</p>
 
     <p>
@@ -43,8 +53,6 @@ const {
       <a href={`tel:${phone}`} class="text-gray-900 hover:underline">{phone}</a>
     </p>
 
- 
-
     <p>
       <span class="font-medium">Website:</span>
       <a href={website} target="_blank" class="text-gray-900 hover:underline"
@@ -55,7 +63,7 @@ const {
 
   {
     socials.length > 0 && (
-      <div class="mt-5 flex flex-wrap gap-3">
+      <div class="mt-5 flex flex-wrap justify-center gap-3">
         {socials.map((s) => (
           <a
             href={s.href}
