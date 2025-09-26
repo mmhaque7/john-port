@@ -1,0 +1,10 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ImageGallery from "../components/ImageGallery.astro";
+
+import sketches from "../data/sketches.json"
+---
+
+<Layout title="Sketch Gallery">
+  <ImageGallery title="Sketches" images={sketches} />
+</Layout>

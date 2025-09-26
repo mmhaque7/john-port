@@ -3,11 +3,13 @@ import Hero from "../components/Hero.astro";
 import ImageCarousel from "../components/ImageCarousel.astro";
 import Layout from "../layouts/Layout.astro";
 import HeroShowcase from "../components/HeroShowcase.astro";
+import HeroVideo from "../components/HeroVideo.astro";
 
-/**
- * Each item is a "project". Add optional `gallery` with extra images
- * to show inside the modal carousel for that project.
- */
+const VIDEO_MP4 = "https://res.cloudinary.com/didltutgq/video/upload/v1757688180/final_final_reel_for_burnett_zrgcix.mp4";
+const POSTER_IMG = "https://res.cloudinary.com/didltutgq/image/upload/v1757691741/HeroPoster_Img_svqpay.png";
+
+
+
 const images = [
   {
     src: "https://res.cloudinary.com/didltutgq/image/upload/v1757213867/Raymar_Cleaned_fyurl7.jpg",
@@ -1093,6 +1095,149 @@ const images = [
       },
     ],
   },
+  {
+    src: "https://res.cloudinary.com/didltutgq/image/upload/v1758857373/IMG_6792_c2rtoz.jpg",
+    alt: "Residential",
+    detail:
+      '<h2 class="text-xl font-semibold mb-2">Brant Condo</h2><p>Condo</p>',
+    gallery: [
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1758857368/IMG_6794_e7kbr9.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1758857363/IMG_6793_kf6kpv.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1758857382/thumbnail_zrofgh.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1758857387/IMG_6791_qjknev.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1758857392/IMG_1002_pbnczh.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1758857359/IMG_6795_zdjvbo.jpg",
+        alt: "",
+      },
+    ],
+  },
+  {
+    src: "https://res.cloudinary.com/didltutgq/image/upload/v1758896575/IMG_0241_uvofua.jpg",
+    alt: "Residential",
+    detail: '<h2 class="text-xl font-semibold mb-2">Trafalger</h2><p>Home</p>',
+    gallery: [
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1758896312/IMG_4066_ycsajq.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1758896035/IMG_3799_vrekeu.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1758896034/IMG_3772_ax1oyc.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1758896036/IMG_3800_ntiwg0.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1758896050/IMG_3904_bjhcny.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1758896043/IMG_3839_ky3o1g.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1758896248/IMG_3994_tsgs55.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1758896430/IMG_4236_ixurte.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1758896532/IMG_4432_afem1r.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1758896557/IMG_4433_iheqbv.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1758896559/IMG_4435_ajvgxq.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1758896563/IMG_4436_cc8loy.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1758896567/IMG_0237_bl9cfe.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1758896577/IMG_3608_iavgf4.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1758896570/IMG_0238_akflfh.jpg",
+        alt: "",
+      },
+    ],
+  },
+  {
+    src: "https://res.cloudinary.com/didltutgq/image/upload/v1758898249/IMG_0244_jxkqk2.jpg",
+    alt: "Comercial",
+    detail:
+      '<h2 class="text-xl font-semibold mb-2">Spearhead Brewery./h2><p>Bar</p>',
+    gallery: [
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1758898246/IMG_0243_f7uqgu.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1758898244/IMG_0242_ixx3vq.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1758898241/IMG_0240_u7hmwk.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1758898241/IMG_0240_u7hmwk.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1758898236/IMG_0257_g8vrsx.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1758898233/IMG_0256_pmy9oj.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1758898228/IMG_0247_ggndxe.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1758898225/IMG_0246_uqeexg.jpg",
+        alt: "",
+      },
+      {
+        src: "https://res.cloudinary.com/didltutgq/image/upload/v1758898223/IMG_0245_d6ryre.jpg",
+        alt: "",
+      },
+    ],
+  },
 ];
 ---
 
@@ -1105,7 +1250,11 @@ const images = [
     imageUrl="https://res.cloudinary.com/didltutgq/image/upload/v1757213867/Raymar_Cleaned_fyurl7.jpg"
   />
 
-  <HeroShowcase
+  <HeroVideo src={VIDEO_MP4} poster={POSTER_IMG} />
+
+  <!-- The project grid + modal carousel -->
+  <ImageCarousel images={images} title="The Collection." />
+   <HeroShowcase
     imageSrc="/images/mono-shelves.jpg"
     imageAlt="Modern built-in shelves and fireplace"
     headline="THAT GREAT DESIGN"
@@ -1116,7 +1265,4 @@ const images = [
     ctaLabel="Learn More"
     ctaHref="/about"
   />
-
-  <!-- The project grid + modal carousel -->
-  <ImageCarousel images={images} title="The Collection" />
 </Layout>
