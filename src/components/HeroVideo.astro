@@ -1,0 +1,134 @@
+---
+/**
+ * HeroVideo.astro — Hero section video with custom controls
+ *
+ * Props:
+ *  - src: string (video URL)
+ *  - poster: string (poster image URL)
+ */
+export interface Props {
+  src: string;
+  poster: string;
+}
+
+const { src, poster } = Astro.props;
+---
+
+<div class="relative group w-full aspect-video overflow-hidden bg-black">
+  <video
+    id="heroVideo"
+    class="absolute inset-0 w-full h-full object-cover
+           transition-opacity duration-300 ease-linear
+           opacity-0
+           group-hover:scale-[1.01] group-focus-visible:scale-[1.01]"
+    poster={poster}
+    preload="metadata"
+    playsinline
+    crossorigin="anonymous"
+    muted
+  >
+    <source src={src} type="video/mp4" />
+  </video>
+
+  <!-- Custom Controls -->
+  <div
+    class="absolute left-4 bottom-4 z-20 flex items-center gap-1.5
+           rounded-2xl border border-white/10 bg-black/55 backdrop-blur
+           px-2 py-1 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100
+           transition-opacity"
+    role="group"
+    aria-label="Video controls"
+  >
+    <!-- Play / Pause -->
+    <button
+      id="btnPP"
+      class="p-2 rounded-xl hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+      aria-label="Play video"
+    >
+      <svg id="iconPlay" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-white">
+        <path d="M8 5v14l11-7L8 5z" />
+      </svg>
+      <svg id="iconPause" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-white hidden">
+        <path d="M6 5h4v14H6zM14 5h4v14h-4z" />
+      </svg>
+    </button>
+
+    <!-- Mute / Unmute -->
+    <button
+      id="btnMute"
+      class="p-2 rounded-xl hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+      aria-label="Mute video"
+    >
+      <svg id="iconVol" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-white">
+        <path d="M5 10v4h3l4 3V7l-4 3H5zm10.5 2a3.5 3.5 0 0 0-2.5-3.347v6.694A3.5 3.5 0 0 0 15.5 12z" />
+      </svg>
+      <svg id="iconMute" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-white hidden">
+        <path d="M5 10v4h3l4 3V7l-4 3H5zM19 9l-1.5 1.5L16 9l-1 1 1.5 1.5L15 13l1 1 1.5-1.5L19 14l1-1-1.5-1.5L20 10l-1-1z" />
+      </svg>
+    </button>
+
+    <!-- Restart -->
+    <button
+      id="btnRestart"
+      class="p-2 rounded-xl hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+      aria-label="Restart video"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="w-5 h-5 text-white">
+        <path d="M12 6V3L8 7l4 4V8a4 4 0 1 1-4 4H6a6 6 0 1 0 6-6z" />
+      </svg>
+    </button>
+  </div>
+</div>
+
+<!-- Inline JS -->
+<script is:inline>
+  const v = document.getElementById("heroVideo");
+  const btnPP = document.getElementById("btnPP");
+  const btnMute = document.getElementById("btnMute");
+  const btnRestart = document.getElementById("btnRestart");
+  const iconPlay = document.getElementById("iconPlay");
+  const iconPause = document.getElementById("iconPause");
+  const iconVol = document.getElementById("iconVol");
+  const iconMute = document.getElementById("iconMute");
+
+  if (v) {
+    // Show poster/video when metadata is ready
+    v.addEventListener("loadedmetadata", () => {
+      v.classList.remove("opacity-0");
+    });
+
+    // Play / Pause
+    btnPP?.addEventListener("click", () => {
+      if (v.paused) {
+        v.play();
+        iconPlay.classList.add("hidden");
+        iconPause.classList.remove("hidden");
+      } else {
+        v.pause();
+        iconPause.classList.add("hidden");
+        iconPlay.classList.remove("hidden");
+      }
+    });
+
+    // Mute / Unmute
+    btnMute?.addEventListener("click", () => {
+      v.muted = !v.muted;
+      iconVol.classList.toggle("hidden", v.muted);
+      iconMute.classList.toggle("hidden", !v.muted);
+    });
+
+    // Restart
+    btnRestart?.addEventListener("click", () => {
+      v.currentTime = 0;
+      v.play();
+      iconPlay.classList.add("hidden");
+      iconPause.classList.remove("hidden");
+    });
+
+    // Reset icons when video ends
+    v.addEventListener("ended", () => {
+      iconPause.classList.add("hidden");
+      iconPlay.classList.remove("hidden");
+    });
+  }
+</script>

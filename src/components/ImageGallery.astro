@@ -1,0 +1,39 @@
+---
+/**
+ * ImageGallery.astro — uniform grid gallery (clean, no borders, no radius)
+ * Props:
+ *  - images: Array<{ src: string; alt?: string }>
+ *  - title: string
+ */
+export interface ImageData { src: string; alt?: string }
+export interface Props { images: ImageData[]; title: string }
+
+const { images = [], title } = Astro.props;
+---
+
+<section class="bg-black py-12 sm:py-16 text-white">
+  <div class="max-w-6xl mx-auto px-4">
+    <h2 class="text-4xl md:text-5xl font-light tracking-tight leading-tight mb-8">
+      {title}
+    </h2>
+
+    {images.length > 0 ? (
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
+        {images.map((img) => (
+          <div class="aspect-[1/1]">
+            <img
+              src={img.src}
+              alt={img.alt ?? ""}
+              class="h-full w-full object-cover"
+              loading="lazy"
+              decoding="async"
+              referrerpolicy="no-referrer"
+            />
+          </div>
+        ))}
+      </div>
+    ) : (
+      <p class="text-zinc-400">No images to display.</p>
+    )}
+  </div>
+</section>

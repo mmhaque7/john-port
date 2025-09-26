@@ -31,7 +31,7 @@ const logoUrl = brand.logoSrc ?? defaultLogo.src;
     role="navigation"
     aria-label="Main"
   >
-    <div class="flex h-16 items-center justify-between">
+    <div class="flex h-20 items-center justify-between">
       <!-- Brand -->
       <a
         href={brand.href ?? "/"}
@@ -41,8 +41,8 @@ const logoUrl = brand.logoSrc ?? defaultLogo.src;
           brand.logoSrc && (
             <img
               src={brand.logoSrc}
-              width="250"
-              height="250"
+              width="200"
+              height="200"
               alt={brand.alt ?? brand.name}
               class="rounded-md"
               loading="eager"
