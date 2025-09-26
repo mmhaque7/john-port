@@ -2,6 +2,7 @@
 import "../styles/global.css";
 import Navbar from "../components/Navbar.astro";
 import logo from "../assets/logo.png"; // you can change this
+import Footer from "../components/Footer.astro";
 
 export interface Props {
   title?: string;
@@ -14,9 +15,8 @@ const { title = "Johnathan Furlong", currentPath } = Astro.props;
 const navItems = [
   { href: "/about", label: "About" },
   { href: "/Media", label: "Gallery" },
-    {href:"/sketches", label: "Sketches"},
+  { href: "/sketches", label: "Sketches" },
   { href: "/blog", label: "Blog" },
-
 ];
 
 // Define brand + CTA here once
@@ -49,5 +49,6 @@ const cta = { label: "Contact", href: "/contact" };
     <main>
       <slot />
     </main>
+    <Footer />
   </body>
 </html>
