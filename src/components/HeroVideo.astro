@@ -1,194 +1,27 @@
 ---
-/**
- * HeroVideo.astro — Mobile-safe hero video with custom controls
- *
- * Props:
- *  - src: string (video URL)
- *  - poster: string (poster image URL)
- */
 export interface Props {
   src: string;
-  poster: string;
+  poster?: string;
 }
-
 const { src, poster } = Astro.props;
+
+function transform(url?: string, q = "q_auto:eco", w = 1600) {
+  if (!url) return undefined;
+  return `${url}${url.includes("?") ? "&" : "?"}f_auto&${q}&w=${w}&dpr=auto`;
+}
 ---
 
-<div class="relative w-full aspect-video overflow-hidden bg-black">
-  <video
-    id="heroVideo"
-    class="absolute inset-0 h-full w-full object-cover
-           transition-opacity duration-300 ease-linear opacity-0"
-    poster={poster}
-    preload="metadata"
-    playsinline
-    webkit-playsinline
-    
-    crossorigin="anonymous"
-    disablepictureinpicture
-    controlslist="nodownload noremoteplayback"
-  >
-    <source src={src} type="video/mp4" />
-    <!-- Optional: add WebM if you have it for better Android compatibility
-    <source src={src.replace('.mp4', '.webm')} type="video/webm" />
-    -->
-  </video>
-
-  <!-- Custom Controls -->
-  <div
-    class="pointer-events-auto absolute bottom-4 left-4 z-20 flex items-center gap-1.5
-           rounded-2xl border border-white/10 bg-black/55
-           px-2 py-1 opacity-100"
-    role="group"
-    aria-label="Video controls"
-    tabindex="0"
-  >
-    <!-- Play / Pause -->
-    <button
-      id="btnPP"
-      class="p-2 rounded-xl hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
-      aria-label="Play video"
+<section class="mx-auto max-w-6xl px-4 py-8">
+  <div class="rounded-2xl overflow-hidden border">
+    <video
+      poster={transform(poster)}
+      preload="none"
+      controls
+      playsinline
+      
+      class="w-full h-auto"
     >
-      <svg id="iconPlay" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5 text-white">
-        <path d="M8 5v14l11-7L8 5z" />
-      </svg>
-      <svg id="iconPause" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="hidden h-5 w-5 text-white">
-        <path d="M6 5h4v14H6zM14 5h4v14h-4z" />
-      </svg>
-    </button>
-
-    <!-- Mute / Unmute -->
-    <button
-      id="btnMute"
-      class="p-2 rounded-xl hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
-      aria-label="Mute video"
-    >
-      <svg id="iconVol" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5 text-white">
-        <path d="M5 10v4h3l4 3V7l-4 3H5zm10.5 2a3.5 3.5 0 0 0-2.5-3.347v6.694A3.5 3.5 0 0 0 15.5 12z" />
-      </svg>
-      <svg id="iconMute" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="hidden h-5 w-5 text-white">
-        <path d="M5 10v4h3l4 3V7l-4 3H5zM19 9l-1.5 1.5L16 9l-1 1 1.5 1.5L15 13l1 1 1.5-1.5L19 14l1-1-1.5-1.5L20 10l-1-1z" />
-      </svg>
-    </button>
-
-    <!-- Restart -->
-    <button
-      id="btnRestart"
-      class="p-2 rounded-xl hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
-      aria-label="Restart video"
-    >
-      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="h-5 w-5 text-white">
-        <path d="M12 6V3L8 7l4 4V8a4 4 0 1 1-4 4H6a6 6 0 1 0 6-6z" />
-      </svg>
-    </button>
+      <source src={src} type="video/mp4" />
+    </video>
   </div>
-</div>
-
-<!-- Inline JS -->
-<script is:inline>
-  (() => {
-    const v = document.getElementById("heroVideo");
-    const btnPP = document.getElementById("btnPP");
-    const btnMute = document.getElementById("btnMute");
-    const btnRestart = document.getElementById("btnRestart");
-    const iconPlay = document.getElementById("iconPlay");
-    const iconPause = document.getElementById("iconPause");
-    const iconVol = document.getElementById("iconVol");
-    const iconMute = document.getElementById("iconMute");
-
-    if (!v) return;
-
-    // --- Helpers -------------------------------------------------------------
-    const syncIcons = () => {
-      if (v.paused) {
-        iconPause.classList.add("hidden");
-        iconPlay.classList.remove("hidden");
-      } else {
-        iconPlay.classList.add("hidden");
-        iconPause.classList.remove("hidden");
-      }
-      iconVol.classList.toggle("hidden", v.muted);
-      iconMute.classList.toggle("hidden", !v.muted);
-    };
-
-    const showVideo = () => v.classList.remove("opacity-0");
-
-    // Some mobile browsers only paint after a successful play() call.
-    const primeFirstFrame = async () => {
-      try {
-        // Keep muted to satisfy autoplay policies; immediately pause after.
-        await v.play();
-        await v.pause();
-        showVideo();
-      } catch {
-        // If play() fails (no gesture yet), fallback to showing on canplay.
-      }
-    };
-
-    // --- Event wiring --------------------------------------------------------
-    // Show once we actually have decodable data.
-    v.addEventListener("canplay", showVideo, { once: true });
-    v.addEventListener("loadeddata", showVideo, { once: true });
-
-    // Try to prime the first frame ASAP (helps iOS/Android black frame issue).
-    v.addEventListener("canplay", primeFirstFrame, { once: true });
-
-    // Ensure state icons match real state
-    v.addEventListener("play", syncIcons);
-    v.addEventListener("pause", syncIcons);
-    v.addEventListener("volumechange", syncIcons);
-    v.addEventListener("ended", () => {
-      // Return to "play" icon on end
-      v.pause();
-      v.currentTime = 0;
-      syncIcons();
-    });
-
-    // Some emulated mobile/devtools require a direct user gesture:
-    const userGesture = () => {
-      // A first click/tap anywhere on controls should guarantee paint
-      if (v.readyState >= 2) showVideo();
-      document.removeEventListener("touchstart", userGesture);
-      document.removeEventListener("click", userGesture);
-    };
-    document.addEventListener("touchstart", userGesture, { once: true, passive: true });
-    document.addEventListener("click", userGesture, { once: true });
-
-    // --- Controls ------------------------------------------------------------
-    btnPP?.addEventListener("click", async () => {
-      try {
-        if (v.paused) {
-          await v.play();
-        } else {
-          v.pause();
-        }
-      } catch (e) {
-        // If play() fails, ensure element is visible at least
-        showVideo();
-      } finally {
-        syncIcons();
-      }
-    });
-
-    btnMute?.addEventListener("click", () => {
-      v.muted = !v.muted;
-      syncIcons();
-    });
-
-    btnRestart?.addEventListener("click", async () => {
-      try {
-        v.currentTime = 0;
-        await v.play();
-      } catch {}
-      syncIcons();
-    });
-
-    // Initial icon state
-    syncIcons();
-  })();
-</script>
-
-<style is:global>
-  /* Keep styles simple for mobile compositing */
-  video::-webkit-media-controls { display: none !important; } /* hide native controls when they appear */
-</style>
+</section>

@@ -1,396 +1,229 @@
 ---
-/**
- * ImageCarousel.astro (all-in-one)
- * - Grid of project cards
- * - Modal per project with its own carousel (main + gallery)
- * - No external scripts; everything inline (no MIME problems)
- */
-
-export interface SubImage {
-  src: string;
-  alt?: string;
-  detail?: string; // HTML or plain text
-}
-export interface ImageData {
-  src: string;
-  alt: string;
-  detail: string; // HTML or plain text
-  gallery?: SubImage[]; // extra images for this project
-}
-export interface Props {
-  images: ImageData[];
-  title: string;
-}
-
+export interface SubImage { src: string; alt?: string; detail?: string }
+export interface ImageData { src: string; alt: string; detail: string; gallery?: SubImage[] }
+export interface Props { images: ImageData[]; title: string }
 const { images, title } = Astro.props;
 ---
 
 <section class="bg-black py-12 sm:py-16 text-white" data-carousel-root>
-  <div class="max-w-6xl mx-auto px-4">
-    <h2 class="text-4xl md:text-5xl font-light tracking-tight leading-tight">
-      {title}
-    </h2>
+  <div class="mx-auto max-w-6xl px-4">
+    <h2 class="text-4xl md:text-5xl font-light tracking-tight leading-tight">{title}</h2>
 
-    <!-- Projects grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
-      {
-        images.map((img, i) => (
-          <button
-            class="group relative overflow-hidden rounded-xl shadow focus:outline-none focus:ring-2 focus:ring-white/60 active:scale-[0.99] transition-transform"
-            data-role="open"
-            data-index={i}
-            aria-label={`Open: ${img.alt}`}
-          >
-            <img
-              src={img.src}
-              alt={img.alt}
-              loading="lazy"
-              class="w-full aspect-[4/3] object-cover"
-            />
-            <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition" />
-            {img.gallery?.length ? (
-              <span class="absolute bottom-2 right-2 text-xs bg-black/70 px-2 py-1 rounded-md">
-                +{img.gallery.length}
-              </span>
-            ) : null}
-          </button>
-        ))
-      }
+    <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 sm:gap-6">
+      {images.map((img, i) => (
+        <button
+          data-role="open"
+          data-index={i}
+          aria-label={`Open: ${img.alt}`}
+          class="group relative overflow-hidden rounded-xl bg-neutral-900/30 ring-1 ring-white/10 transition hover:scale-[1.01] focus:outline-none focus:ring-2 focus:ring-white/60"
+        >
+          <img
+            src={img.src}
+            alt={img.alt}
+            loading="lazy"
+            decoding="async"
+            class="h-56 w-full object-cover sm:h-64 md:h-72"
+          />
+          <div class="absolute inset-0 opacity-0 transition group-hover:opacity-100 bg-black/30" />
+          {img.gallery?.length ? (
+            <span class="absolute bottom-2 right-2 rounded-md bg-black/70 px-2 py-1 text-xs">+{img.gallery.length}</span>
+          ) : null}
+        </button>
+      ))}
     </div>
   </div>
 
-  <!-- Modal (scoped via data-role) -->
-  <div
-    data-role="modal"
-    class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden"
-    aria-hidden="true"
-  >
+  <div data-role="modal" class="fixed inset-0 z-50 hidden bg-black/70 backdrop-blur-sm" aria-hidden="true">
+    <button data-role="overlay" class="absolute inset-0" aria-label="Close modal"></button>
+
     <button
-      data-role="overlay"
-      class="absolute inset-0"
-      aria-label="Close modal"></button>
+      data-role="close"
+      class="absolute right-4 top-4 z-50 grid h-8 w-8 place-items-center rounded-full bg-white/90 text-sm font-bold text-black shadow hover:bg-white hover:text-neutral-700"
+      aria-label="Close modal"
+    >x</button>
 
     <div
-      class="relative mx-auto my-6 sm:my-10 w-[92vw] sm:w-[90vw] max-w-5xl bg-white text-black rounded-2xl shadow-xl overflow-hidden animate-fadeIn"
+      class="relative mx-auto my-6 w-[92vw] max-w-5xl animate-[fadeIn_.2s_ease-out_forwards] overflow-hidden rounded-2xl bg-white text-black shadow-xl sm:my-10 sm:w-[90vw]"
       role="dialog"
       aria-modal="true"
       aria-labelledby="modalTitle"
     >
-      <button
-        data-role="close"
-        class="absolute top-3 right-3 h-10 w-10 grid place-items-center rounded-full text-2xl text-gray-600 hover:text-gray-800 hover:bg-gray-100"
-        aria-label="Close modal">&times;</button
-      >
-
       <div class="relative bg-black">
-        <img
-          data-role="image"
-          src=""
-          alt=""
-          class="w-full max-h-[60vh] sm:max-h-[70vh] object-contain"
-        />
+        <img data-role="image" src="" alt="" class="block max-h-[60vh] w-full object-contain sm:max-h-[70vh]" />
         <button
           data-role="prev"
-          class="absolute left-2 top-1/2 -translate-y-1/2 h-10 w-10 grid place-items-center rounded-full bg-white/80 hover:bg-white shadow focus:outline-none focus:ring-2 focus:ring-black/50"
-          aria-label="Previous image">‹</button
-        >
+          class="absolute left-2 top-1/2 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full bg-white/80 shadow hover:bg-white focus:outline-none focus:ring-2 focus:ring-black/50"
+          aria-label="Previous image"
+        >‹</button>
         <button
           data-role="next"
-          class="absolute right-2 top-1/2 -translate-y-1/2 h-10 w-10 grid place-items-center rounded-full bg-white/80 hover:bg-white shadow focus:outline-none focus:ring-2 focus:ring-black/50"
-          aria-label="Next image">›</button
-        >
-        <div
-          data-role="progress"
-          class="absolute left-2 top-2 text-xs bg-white/80 text-black px-2 py-1 rounded-md"
-        >
-        </div>
+          class="absolute right-2 top-1/2 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full bg-white/80 shadow hover:bg-white focus:outline-none focus:ring-2 focus:ring-black/50"
+          aria-label="Next image"
+        >›</button>
+        <div data-role="progress" class="absolute left-2 top-2 rounded-md bg-white/80 px-2 py-1 text-xs text-black"></div>
       </div>
 
-      <div class="px-4 py-3 bg-white border-b">
+      <div class="border-b bg-white px-4 py-3">
         <div data-role="thumbs" class="flex gap-2 overflow-x-auto"></div>
       </div>
 
-      <div class="p-5 sm:p-6 max-h-[40vh] sm:max-h-[35vh] overflow-y-auto">
-        <h3 data-role="title" class="text-base sm:text-lg font-semibold mb-2">
-        </h3>
+      <div class="max-h-[40vh] overflow-y-auto p-5 sm:max-h-[35vh] sm:p-6">
+        <h3 data-role="title" class="mb-2 text-base font-semibold sm:text-lg"></h3>
         <div data-role="content" class="prose prose-sm max-w-none"></div>
       </div>
     </div>
   </div>
 
-  <!-- Per-instance data -->
-  <script
-    type="application/json"
-    data-role="data"
-    set:html={JSON.stringify(images)}
-  />
+  <script type="application/json" data-role="data" set:html={JSON.stringify(images)} />
 
   <style is:global>
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(12px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    .animate-fadeIn {
-      animation: fadeIn 0.25s ease-out forwards;
-    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px) } to { opacity: 1; transform: translateY(0) } }
   </style>
 
-  <!-- Inline JS: no external requests, no MIME issues -->
   <script is:inline>
-    // Helpers (plain JS)
-    const $$ = (root, sel) => root.querySelectorAll(sel);
-    const $ = (root, sel) => root.querySelector(sel);
-    const hasHTML = (s) => !!s && /<[a-z][\s\S]*>/i.test(s);
-    const clamp = (i, len) => (len ? (i + len) % len : 0);
+    const $ = (r, s) => r.querySelector(s);
+    const $$ = (r, s) => r.querySelectorAll(s);
+    const clamp = (i, n) => (n ? (i + n) % n : 0);
+    const isHTML = (s) => !!s && /<[a-z][\s\S]*>/i.test(s);
 
-    // Initialize every carousel instance on the page (safe if 1)
-    (function initAll() {
-      const hosts = document.querySelectorAll("[data-carousel-root]");
-      hosts.forEach((host) => initCarousel(host));
+    (function boot() {
+      $$ (document, "[data-carousel-root]").forEach(init);
     })();
 
-    function initCarousel(root) {
-      // Guard: prevent double-binding
-      if (root.dataset.carouselReady === "1") return;
-      root.dataset.carouselReady = "1";
+    function init(root) {
+      if (root.dataset.ready === "1") return;
+      root.dataset.ready = "1";
 
-      // Scoped lookups
-      const dataEl = /** @type {HTMLScriptElement|null} */ (
-        $(root, '[data-role="data"]')
-      );
+      const dataEl = $(root, '[data-role="data"]');
+      const modal = $(root, '[data-role="modal"]');
+      const overlay = $(root, '[data-role="overlay"]');
+      const closeBtn = $(root, '[data-role="close"]');
+      const modalImg = $(root, '[data-role="image"]');
+      const titleEl = $(root, '[data-role="title"]');
+      const contentEl = $(root, '[data-role="content"]');
+      const progressEl = $(root, '[data-role="progress"]');
+      const thumbsEl = $(root, '[data-role="thumbs"]');
 
-      const modal = /** @type {HTMLDivElement|null} */ (
-        $(root, '[data-role="modal"]')
-      );
-      const overlay = /** @type {HTMLButtonElement|null} */ (
-        $(root, '[data-role="overlay"]')
-      );
-      const closeBtn = /** @type {HTMLButtonElement|null} */ (
-        $(root, '[data-role="close"]')
-      );
+      if (!dataEl || !modal || !overlay || !closeBtn || !modalImg || !titleEl || !contentEl || !progressEl || !thumbsEl) return;
 
-      const modalImg = /** @type {HTMLImageElement|null} */ (
-        $(root, '[data-role="image"]')
-      );
-      const modalTitle = /** @type {HTMLHeadingElement|null} */ (
-        $(root, '[data-role="title"]')
-      );
-      const modalContent = /** @type {HTMLDivElement|null} */ (
-        $(root, '[data-role="content"]')
-      );
-      const progress = /** @type {HTMLDivElement|null} */ (
-        $(root, '[data-role="progress"]')
-      );
+      const projects = dataEl.textContent ? JSON.parse(dataEl.textContent) : [];
+      let currentProject = 0, slides = [], currentSlide = 0, lastFocused = null;
 
-      const prevBtn = /** @type {HTMLButtonElement|null} */ (
-        $(root, '[data-role="prev"]')
-      );
-      const nextBtn = /** @type {HTMLButtonElement|null} */ (
-        $(root, '[data-role="next"]')
-      );
-      const thumbs = /** @type {HTMLDivElement|null} */ (
-        $(root, '[data-role="thumbs"]')
-      );
-
-      const openers = /** @type {NodeListOf<HTMLButtonElement>} */ (
-        $$(root, '[data-role="open"]')
-      );
-
-      if (
-        !dataEl ||
-        !modal ||
-        !overlay ||
-        !closeBtn ||
-        !modalImg ||
-        !modalTitle ||
-        !modalContent ||
-        !prevBtn ||
-        !nextBtn ||
-        !thumbs
-      ) {
-        return; // essential nodes missing
+      function buildSlides(p) {
+        const main = { src: p.src, alt: p.alt, detail: p.detail };
+        const extras = (p.gallery || []).map(g => ({ src: g.src, alt: g.alt || p.alt, detail: g.detail || p.detail }));
+        return [main, ...extras];
       }
 
-      // State (per instance)
-      let projects = [];
-      let currentProject = 0;
-      let slides = [];
-      let currentSlide = 0;
-      let lastFocused = null;
-
-      // Data
-      projects = dataEl.textContent ? JSON.parse(dataEl.textContent) : [];
-
-      // Helpers
-      const lockScroll = (on) => {
+      function lockScroll(on) {
         document.documentElement.style.overflow = on ? "hidden" : "";
         document.body.style.overflow = on ? "hidden" : "";
-      };
+      }
 
-      const buildSlides = (p) => {
-        const main = { src: p.src, alt: p.alt, detail: p.detail };
-        const extras = (p.gallery ?? []).map((g) => ({
-          src: g.src,
-          alt: g.alt ?? p.alt,
-          detail: g.detail ?? p.detail,
-        }));
-        return [main, ...extras];
-      };
+      function setContent(s) {
+        if (isHTML(s?.detail)) contentEl.innerHTML = s.detail || "";
+        else contentEl.textContent = s?.detail || "";
+      }
 
-      const preloadNeighbors = (i) => {
-        [clamp(i - 1, slides.length), clamp(i + 1, slides.length)].forEach(
-          (k) => {
-            const s = slides[k];
-            if (s && s.src) {
-              const img = new Image();
-              img.src = s.src;
-            }
-          }
-        );
-      };
+      function updateProgress() {
+        progressEl.textContent = slides.length > 1 ? `${currentSlide + 1} / ${slides.length}` : "";
+      }
 
-      const updateProgress = () => {
-        progress.textContent =
-          slides.length > 1 ? `${currentSlide + 1} / ${slides.length}` : "";
-      };
-
-      const renderThumbs = () => {
-        thumbs.innerHTML = "";
-        slides.forEach((s, i) => {
-          const btn = document.createElement("button");
-          btn.type = "button";
-          btn.className =
-            "shrink-0 relative rounded-lg overflow-hidden border border-black/10 focus:outline-none focus:ring-2 focus:ring-black/40";
-          btn.setAttribute("aria-label", `Go to slide ${i + 1}`);
-
-          const im = document.createElement("img");
-          im.src = s.src;
-          im.alt = s.alt || `Slide ${i + 1}`;
-          im.loading = "lazy";
-          im.className = "h-16 w-24 object-cover";
-
-          const hi = document.createElement("div");
-          hi.className =
-            i === currentSlide
-              ? "absolute inset-0 ring-2 ring-black rounded-lg"
-              : "absolute inset-0";
-
-          btn.appendChild(im);
-          btn.appendChild(hi);
-          btn.addEventListener("click", () => showSlide(i));
-          thumbs.appendChild(btn);
+      function preloadNeighbors(i) {
+        [clamp(i - 1, slides.length), clamp(i + 1, slides.length)].forEach(k => {
+          const s = slides[k];
+          if (s?.src) { const img = new Image(); img.src = s.src; }
         });
-      };
+      }
 
-      const showSlide = (index) => {
-        const safe = clamp(index, slides.length);
-        const s = slides[safe];
-        if (!s) return;
-        currentSlide = safe;
+      function renderThumbs() {
+        thumbsEl.innerHTML = "";
+        slides.forEach((s, i) => {
+          const b = document.createElement("button");
+          b.type = "button";
+          b.className = "relative shrink-0 overflow-hidden rounded-lg border border-black/10 focus:outline-none focus:ring-2 focus:ring-black/40";
+          b.setAttribute("aria-label", `Go to slide ${i + 1}`);
+          const im = document.createElement("img");
+          im.src = s.src; im.alt = s.alt || `Slide ${i + 1}`; im.loading = "lazy";
+          im.className = "h-16 w-24 object-cover";
+          const hi = document.createElement("div");
+          hi.className = i === currentSlide ? "absolute inset-0 ring-2 ring-black rounded-lg" : "absolute inset-0";
+          b.append(im, hi);
+          b.addEventListener("click", () => show(i));
+          thumbsEl.appendChild(b);
+        });
+      }
 
-        // Crossfade
+      function show(index) {
+        const i = clamp(index, slides.length);
+        const s = slides[i]; if (!s) return;
+        currentSlide = i;
+
         modalImg.style.opacity = "0";
         requestAnimationFrame(() => {
           modalImg.src = s.src;
           modalImg.alt = s.alt || "";
           const p = projects[currentProject];
-          modalTitle.textContent =
-            (p && p.alt) || s.alt || `Image ${currentSlide + 1}`;
-          if (hasHTML(s.detail)) {
-            modalContent.innerHTML = s.detail || "";
-          } else {
-            modalContent.textContent = s.detail || "";
-          }
-          const onLoad = () => {
-            modalImg.style.transition = "opacity 150ms ease-out";
-            modalImg.style.opacity = "1";
-            modalImg.removeEventListener("load", onLoad);
-          };
+          titleEl.textContent = (p && p.alt) || s.alt || `Image ${currentSlide + 1}`;
+          setContent(s);
+          const onLoad = () => { modalImg.style.transition = "opacity 150ms ease-out"; modalImg.style.opacity = "1"; modalImg.removeEventListener("load", onLoad); };
           modalImg.addEventListener("load", onLoad);
         });
 
         renderThumbs();
         updateProgress();
         preloadNeighbors(currentSlide);
-      };
+      }
 
-      const openProject = (projectIndex) => {
+      function open(projectIndex) {
         currentProject = projectIndex;
         slides = buildSlides(projects[currentProject]);
         currentSlide = 0;
-
         modal.classList.remove("hidden");
         modal.setAttribute("aria-hidden", "false");
         lockScroll(true);
-        lastFocused = document.activeElement || null;
-        if (closeBtn) closeBtn.focus();
+        lastFocused = document.activeElement;
+        closeBtn.focus();
+        show(0);
+      }
 
-        showSlide(0);
-      };
-
-      const closeModal = () => {
+      function close() {
         modal.classList.add("hidden");
         modal.setAttribute("aria-hidden", "true");
         lockScroll(false);
-        if (lastFocused && typeof lastFocused.focus === "function")
-          lastFocused.focus();
-      };
+        if (lastFocused && lastFocused.focus) lastFocused.focus();
+      }
 
-      const next = () => showSlide(currentSlide + 1);
-      const prev = () => showSlide(currentSlide - 1);
-
-      // Openers
-      openers.forEach((el) => {
-        el.addEventListener("click", () => {
-          const raw = el.getAttribute("data-index");
-          openProject(Number(raw ?? 0));
-        });
+      root.addEventListener("click", (e) => {
+        const target = e.target;
+        const opener = target.closest?.('[data-role="open"]');
+        if (opener) {
+          const idx = Number(opener.getAttribute("data-index") || "0");
+          open(idx);
+          return;
+        }
+        if (target.closest?.('[data-role="overlay"]') || target.closest?.('[data-role="close"]')) {
+          close();
+          return;
+        }
+        if (target.closest?.('[data-role="next"]')) { show(currentSlide + 1); return; }
+        if (target.closest?.('[data-role="prev"]')) { show(currentSlide - 1); return; }
+        if (target === modalImg) { show(currentSlide + 1); return; }
       });
 
-      // Controls
-      overlay.addEventListener("click", closeModal);
-      closeBtn.addEventListener("click", closeModal);
-      nextBtn.addEventListener("click", next);
-      prevBtn.addEventListener("click", prev);
-      modalImg.addEventListener("click", next);
-
-      // Keyboard (while modal open)
       window.addEventListener("keydown", (e) => {
         if (modal.classList.contains("hidden")) return;
-        if (e.key === "Escape") closeModal();
-        if (e.key === "ArrowRight") next();
-        if (e.key === "ArrowLeft") prev();
+        if (e.key === "Escape") close();
+        if (e.key === "ArrowRight") show(currentSlide + 1);
+        if (e.key === "ArrowLeft") show(currentSlide - 1);
       });
 
-      // Swipe
-      let startX = 0,
-        startY = 0,
-        touching = false;
-      modalImg.addEventListener(
-        "touchstart",
-        (e) => {
-          const t = e.touches[0];
-          touching = true;
-          startX = t.clientX;
-          startY = t.clientY;
-        },
-        { passive: true }
-      );
+      let sx = 0, sy = 0, touching = false;
+      modalImg.addEventListener("touchstart", (e) => { const t = e.touches[0]; touching = true; sx = t.clientX; sy = t.clientY; }, { passive: true });
       modalImg.addEventListener("touchend", (e) => {
-        if (!touching) return;
-        touching = false;
-        const t = e.changedTouches[0];
-        const dx = t.clientX - startX;
-        const dy = t.clientY - startY;
-        if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
-          dx < 0 ? next() : prev();
-        }
+        if (!touching) return; touching = false;
+        const t = e.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy;
+        if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) dx < 0 ? show(currentSlide + 1) : show(currentSlide - 1);
       });
     }
   </script>
