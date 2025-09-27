@@ -5,9 +5,13 @@ import Layout from "../layouts/Layout.astro";
 import HeroShowcase from "../components/HeroShowcase.astro";
 import HeroVideo from "../components/HeroVideo.astro";
 
+// Cloudinary transform helpers for hero
+const rawHero = "https://res.cloudinary.com/didltutgq/image/upload/v1757213867/Raymar_Cleaned_fyurl7.jpg";
+const heroFast = `${rawHero}?f_auto&q_auto:good&w=1600&dpr=auto`;
+
+// Video assets
 const VIDEO_MP4 = "https://res.cloudinary.com/didltutgq/video/upload/v1757688180/final_final_reel_for_burnett_zrgcix.mp4";
 const POSTER_IMG = "https://res.cloudinary.com/didltutgq/image/upload/v1757691741/HeroPoster_Img_svqpay.png";
-
 
 
 const images = [
@@ -1241,7 +1245,7 @@ const images = [
 ];
 ---
 
-<Layout>
+<Layout preloadHeroSrc={heroFast}>
   <Hero
     title="Where Vision Meets Elegance"
     subtitle="For over two decades, I’ve been crafting interiors that balance sophistication, comfort, and individuality—delivering spaces that leave a lasting impression."
