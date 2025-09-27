@@ -1,69 +1,82 @@
 ---
+export interface Props {
+  imageSrc: string;
+  imageAlt?: string;
+  headline: string;
+  accent?: string;
+  copy?: string;
+  name?: string;
+  title?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+}
 
+const {
+  imageSrc,
+  imageAlt = "",
+  headline,
+  accent = "",
+  copy = "",
+  name = "",
+  title = "",
+  ctaLabel,
+  ctaHref,
+} = Astro.props;
 ---
 
-<section
-  class="relative isolate min-h-[80vh] bg-black text-white flex items-end"
->
+<section class="relative isolate min-h-[80vh] bg-black text-white flex items-end">
   <!-- Background image -->
   <figure class="absolute inset-0 -z-10">
     <img
-      src="https://res.cloudinary.com/didltutgq/image/upload/v1757097781/raymar_ai_enhanced_aoxxrh.png"
-      alt="Raymar AI enhanced Image"
+      src={imageSrc}
+      alt={imageAlt}
       class="h-full w-full object-cover contrast-110 opacity-90"
       loading="eager"
       decoding="async"
     />
     <!-- vignette -->
-    <div
-      class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/70"
-    >
-    </div>
+    <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/70"></div>
   </figure>
 
   <!-- Panel -->
   <div class="container mx-auto px-4 md:px-6 lg:px-8 relative">
-    <div
-      class="mb-16 md:mb-24 max-w-3xl rounded-2xl border border-white/10 bg-black/50 p-6 md:p-8 backdrop-blur-md shadow-lg"
-    >
-      <p class="mb-2 text-xs tracking-[0.18em] text-zinc-300 uppercase">
-        WE BELIEVE
-      </p>
+    <div class="mb-16 md:mb-24 max-w-3xl rounded-2xl border border-white/10 bg-black/50 p-6 md:p-8 backdrop-blur-md shadow-lg">
+      <p class="mb-2 text-xs tracking-[0.18em] text-zinc-300 uppercase">WE BELIEVE</p>
 
-      <h1
-        class="text-3xl sm:text-4xl lg:text-5xl leading-tight font-light tracking-tight"
-      >
-        RANDOM TITLE GOES HERE
-        <span
-          class="block mt-1 italic text-2xl sm:text-3xl lg:text-4xl text-zinc-100"
-        >
-          random accent text
-        </span>
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl leading-tight font-light tracking-tight">
+        {headline}
+        {accent && (
+          <span class="block mt-1 italic text-2xl sm:text-3xl lg:text-4xl text-zinc-100">
+            {accent}
+          </span>
+        )}
       </h1>
 
-      <p class="mt-4 text-sm sm:text-base leading-relaxed text-zinc-300">
-        Random descriptive paragraph that you can change later. Add 2–3
-        sentences about design, values, or anything you want to showcase in this
-        hero section.
-      </p>
+      {copy && (
+        <p class="mt-4 text-sm sm:text-base leading-relaxed text-zinc-300">
+          {copy}
+        </p>
+      )}
 
-      <div class="mt-5 flex items-center gap-3">
-        <span class="text-xl text-zinc-400 select-none" aria-hidden="true"
-          >—</span
-        >
-        <div>
-          <div class="font-medium">Random Name</div>
-          <div class="text-xs text-zinc-400">Random Title</div>
+      {(name || title) && (
+        <div class="mt-5 flex items-center gap-3">
+          <span class="text-xl text-zinc-400 select-none" aria-hidden="true">—</span>
+          <div>
+            {name && <div class="font-medium">{name}</div>}
+            {title && <div class="text-xs text-zinc-400">{title}</div>}
+          </div>
         </div>
-      </div>
+      )}
 
-      <a
-        href="#"
-        class="mt-6 inline-block rounded-xl border border-white px-4 py-2 text-sm transition
-               hover:bg-white hover:text-black focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
-      >
-        Learn More
-      </a>
+      {ctaHref && ctaLabel && (
+        <a
+          href={ctaHref}
+          class="mt-6 inline-block rounded-xl border border-white px-4 py-2 text-sm transition
+                 hover:bg-white hover:text-black focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
+        >
+          {ctaLabel}
+        </a>
+      )}
     </div>
   </div>
 </section>
