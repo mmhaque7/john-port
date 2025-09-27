@@ -1,6 +1,6 @@
 [
   {
-    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1757691741/HeroPoster_Img_svqpay.png",
+    "src": "https://res.cl  oudinary.com/didltutgq/image/upload/v1758935253/jon_yu2ta2.png",
     "aria": "1",
     "aspect": "aspect-[16/10]",
     "spanClass": "col-span-12"
@@ -13,7 +13,7 @@
     "spanClass": "col-span-12 md:col-span-8"
   },
   {
-    "src": "",
+    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1758932922/IMG_3563_s3zuea.png",
     "aria": "3",
     "aspect": "aspect-[3/4]",
     "spanClass": "col-span-12 md:col-span-4"
@@ -56,7 +56,7 @@
     "spanClass": "col-span-12 md:col-span-4"
   },
   {
-    "src": "",
+    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1758932927/IMG_3564_ljawg1.png",
     "aria": "10",
     "aspect": "aspect-[6/10]",
     "spanClass": "col-span-12 md:col-span-4"
@@ -169,6 +169,18 @@
   {
     "src": "https://res.cloudinary.com/didltutgq/image/upload/v1757213867/Raymar_Cleaned_fyurl7.jpg",
     "aria": "29",
+    "aspect": "aspect-[4/2.92]",
+    "spanClass": "col-span-12 md:col-span-6"
+  },
+    {
+    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1758932825/IMG_1003_xzfgiq.jpg",
+    "aria": "29",
+    "aspect": "aspect-[4/2.92]",
+    "spanClass": "col-span-12 md:col-span-6"
+  },
+    {
+    "src": "https://res.cloudinary.com/didltutgq/image/upload/v1758933245/IMG_3279_gii1vk_a_-90_wjo1xu.jpg",
+    "aria": "30",
     "aspect": "aspect-[4/2.92]",
     "spanClass": "col-span-12 md:col-span-6"
   }
