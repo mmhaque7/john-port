@@ -1,36 +1,31 @@
 ---
 import "../styles/global.css";
 import Navbar from "../components/Navbar.astro";
-import logo from "../assets/logo.png";
 import Footer from "../components/Footer.astro";
+import logo from "../assets/logo.png";
 
 export interface Props {
   title?: string;
+  description?: string;
+  ogImage?: string;
+  canonical?: string;
+  noindex?: boolean;
   currentPath?: string;
   preloadHeroSrc?: string;
 }
 
 const {
-  title = "Jonathan Furlong",
+  title = "Jonathan Furlong Design",
+  description = "Jonathan Furlong Design crafts refined residential & commercial interiors that balance elegance, comfort, and personality.",
+  ogImage = "/social-image.jpg",
+  canonical,
+  noindex = false,
   currentPath,
-  preloadHeroSrc
+  preloadHeroSrc,
 } = Astro.props;
 
-const navItems = [
-  { href: "/about", label: "About" },
-  { href: "/Media", label: "Gallery" },
-  { href: "/sketches", label: "Sketches" },
-  { href: "/blog", label: "Blog" },
-];
-
-const brand = {
-  name: "MySite",
-  href: "/",
-  logoSrc: logo.src,
-  alt: "MySite logo",
-};
-
-const cta = { label: "Contact", href: "/contact" };
+const pageUrl = canonical ?? (Astro.url ? Astro.url.href : undefined);
+const siteName = "Jonathan Furlong Design";
 ---
 
 <!doctype html>
@@ -39,23 +34,50 @@ const cta = { label: "Contact", href: "/contact" };
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/png" href="/favicon.png" />
-    <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    <meta name="description" content={description} />
+    {pageUrl && <link rel="canonical" href={pageUrl} />}
+    <meta
+      name="robots"
+      content={noindex ? "noindex,nofollow" : "index,follow"}
+    />
 
-    <link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
-    <link rel="dns-prefetch" href="https://res.cloudinary.com">
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    {pageUrl && <meta property="og:url" content={pageUrl} />}
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:image" content={ogImage} />
 
-    {preloadHeroSrc && (
-      <link rel="preload" as="image" href={preloadHeroSrc} />
-    )}
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <link rel="preconnect" href="https://res.cloudinary.com" crossorigin />
+    <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+
+    {preloadHeroSrc && <link rel="preload" as="image" href={preloadHeroSrc} />}
 
     <slot name="head" />
   </head>
   <body class="bg-black text-white antialiased">
     <Navbar
-      items={navItems}
-      brand={brand}
-      cta={cta}
+      items={[
+        { href: "/about", label: "About" },
+        { href: "/Media", label: "Gallery" },
+        { href: "/sketches", label: "Sketches" },
+        { href: "/blog", label: "Blog" },
+      ]}
+      brand={{
+        name: "Jonathan Furlong Design",
+        href: "/",
+        logoSrc: logo.src,
+        alt: "Jonathan Furlong Design logo",
+      }}
+      cta={{ label: "Contact", href: "/contact" }}
       currentPath={currentPath}
     />
 
