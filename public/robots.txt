@@ -1,0 +1,14 @@
+# robots.txt for https://jonathanfurlongdesign.com
+# Created for Astro + sitemap integration
+
+User-agent: *
+Allow: /
+
+# Disallow any private or internal routes
+Disallow: /admin/
+Disallow: /api/
+Disallow: /drafts/
+Disallow: /404
+
+# Sitemap reference (Astro generates this automatically if you use @astrojs/sitemap)
+Sitemap: https://jonathanfurlongdesign.com/sitemap-index.xml
