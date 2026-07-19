@@ -7,7 +7,7 @@ const { images, title } = Astro.props;
 
 <section class="bg-black py-12 sm:py-16 text-white" data-carousel-root>
   <div class="mx-auto max-w-6xl px-4">
-    <h2 class="text-4xl md:text-5xl font-light tracking-tight leading-tight">{title}</h2>
+    <h2 class="text-3xl sm:text-4xl md:text-5xl font-light tracking-tight leading-tight">{title}</h2>
 
     <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 sm:gap-6">
       {images.map((img, i) => (
@@ -22,7 +22,7 @@ const { images, title } = Astro.props;
             alt={img.alt}
             loading="lazy"
             decoding="async"
-            class="h-56 w-full object-cover sm:h-64 md:h-72"
+            class="h-48 w-full object-cover sm:h-64 md:h-72"
           />
           <div class="absolute inset-0 opacity-0 transition group-hover:opacity-100 bg-black/30" />
           {img.gallery?.length ? (
@@ -33,41 +33,45 @@ const { images, title } = Astro.props;
     </div>
   </div>
 
-  <div data-role="modal" class="fixed inset-0 z-50 hidden bg-black/70 backdrop-blur-sm" aria-hidden="true">
-    <button data-role="overlay" class="absolute inset-0" aria-label="Close modal"></button>
+  <div
+    data-role="modal"
+    class="fixed inset-0 z-50 hidden items-center justify-center overflow-y-auto bg-black/70 p-3 backdrop-blur-sm sm:p-6"
+    aria-hidden="true"
+  >
+    <button data-role="overlay" class="fixed inset-0" aria-label="Close modal"></button>
 
     <button
       data-role="close"
-      class="absolute right-4 top-4 z-50 grid h-8 w-8 place-items-center rounded-full bg-white/90 text-sm font-bold text-black shadow hover:bg-white hover:text-neutral-700"
+      class="fixed right-3 top-3 z-50 grid h-9 w-9 place-items-center rounded-full bg-white/90 text-sm font-bold text-black shadow hover:bg-white hover:text-neutral-700 sm:right-4 sm:top-4"
       aria-label="Close modal"
     >x</button>
 
     <div
-      class="relative mx-auto my-6 w-[92vw] max-w-5xl animate-[fadeIn_.2s_ease-out_forwards] overflow-hidden rounded-2xl bg-white text-black shadow-xl sm:my-10 sm:w-[90vw]"
+      class="relative mx-auto flex max-h-[calc(100dvh_-_1.5rem)] w-full max-w-5xl flex-col overflow-hidden rounded-2xl bg-white text-black shadow-xl animate-[fadeIn_.2s_ease-out_forwards] sm:max-h-[calc(100dvh_-_3rem)]"
       role="dialog"
       aria-modal="true"
       aria-labelledby="modalTitle"
     >
-      <div class="relative bg-black">
-        <img data-role="image" src="" alt="" class="block max-h-[60vh] w-full object-contain sm:max-h-[70vh]" />
+      <div class="relative shrink-0 bg-black">
+        <img data-role="image" src="" alt="" class="block max-h-[45vh] w-full object-contain sm:max-h-[65vh]" />
         <button
           data-role="prev"
-          class="absolute left-2 top-1/2 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full bg-white/80 shadow hover:bg-white focus:outline-none focus:ring-2 focus:ring-black/50"
+          class="absolute left-2 top-1/2 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-white/80 shadow hover:bg-white focus:outline-none focus:ring-2 focus:ring-black/50"
           aria-label="Previous image"
         >‹</button>
         <button
           data-role="next"
-          class="absolute right-2 top-1/2 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full bg-white/80 shadow hover:bg-white focus:outline-none focus:ring-2 focus:ring-black/50"
+          class="absolute right-2 top-1/2 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-white/80 shadow hover:bg-white focus:outline-none focus:ring-2 focus:ring-black/50"
           aria-label="Next image"
         >›</button>
         <div data-role="progress" class="absolute left-2 top-2 rounded-md bg-white/80 px-2 py-1 text-xs text-black"></div>
       </div>
 
-      <div class="border-b bg-white px-4 py-3">
+      <div class="hidden shrink-0 border-b bg-white px-4 py-3 sm:block">
         <div data-role="thumbs" class="flex gap-2 overflow-x-auto"></div>
       </div>
 
-      <div class="max-h-[40vh] overflow-y-auto p-5 sm:max-h-[35vh] sm:p-6">
+      <div class="min-h-0 flex-1 overflow-y-auto p-4 sm:p-6">
         <h3 data-role="title" class="mb-2 text-base font-semibold sm:text-lg"></h3>
         <div data-role="content" class="prose prose-sm max-w-none"></div>
       </div>
@@ -107,7 +111,7 @@ const { images, title } = Astro.props;
       if (!dataEl || !modal || !overlay || !closeBtn || !modalImg || !titleEl || !contentEl || !progressEl || !thumbsEl) return;
 
       const projects = dataEl.textContent ? JSON.parse(dataEl.textContent) : [];
-      let currentProject = 0, slides = [], currentSlide = 0, lastFocused = null;
+      let currentProject = 0, slides = [], currentSlide = 0, lastFocused = null, scrollY = 0;
 
       function buildSlides(p) {
         const main = { src: p.src, alt: p.alt, detail: p.detail };
@@ -115,9 +119,20 @@ const { images, title } = Astro.props;
         return [main, ...extras];
       }
 
+      // Robust scroll lock: position:fixed avoids iOS Safari rubber-banding,
+      // and we restore the scroll position on close.
       function lockScroll(on) {
-        document.documentElement.style.overflow = on ? "hidden" : "";
-        document.body.style.overflow = on ? "hidden" : "";
+        if (on) {
+          scrollY = window.scrollY;
+          document.body.style.position = "fixed";
+          document.body.style.top = `-${scrollY}px`;
+          document.body.style.width = "100%";
+        } else {
+          document.body.style.position = "";
+          document.body.style.top = "";
+          document.body.style.width = "";
+          window.scrollTo(0, scrollY);
+        }
       }
 
       function setContent(s) {
@@ -180,6 +195,7 @@ const { images, title } = Astro.props;
         slides = buildSlides(projects[currentProject]);
         currentSlide = 0;
         modal.classList.remove("hidden");
+        modal.classList.add("flex");
         modal.setAttribute("aria-hidden", "false");
         lockScroll(true);
         lastFocused = document.activeElement;
@@ -189,6 +205,7 @@ const { images, title } = Astro.props;
 
       function close() {
         modal.classList.add("hidden");
+        modal.classList.remove("flex");
         modal.setAttribute("aria-hidden", "true");
         lockScroll(false);
         if (lastFocused && lastFocused.focus) lastFocused.focus();
