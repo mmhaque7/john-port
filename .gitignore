@@ -19,6 +19,12 @@ pnpm-debug.log*
 
 # macOS-specific files
 .DS_Store
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*   
+
 
 # jetbrains setting folder
 .idea/
